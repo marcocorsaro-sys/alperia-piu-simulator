@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+dist-ssr/
+*.local
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Claude Code
+.claude/
+
+# anti-iCloud .nosync patterns
+node_modules.nosync
+.next.nosync
+.turbo.nosync
+dist.nosync
+build.nosync
+.cache.nosync
+.venv.nosync
+__pycache__.nosync
+.vercel
+.env*.local
+
+# Artifact iCloud sync (file duplicati con suffisso " 2", " 3", ecc.)
+* 2
+* 3
+* 2/
+* 3/
+* 2.*
+*.nosync 2
+*.nosync 2/
