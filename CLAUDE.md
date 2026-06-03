@@ -1,5 +1,10 @@
 # Context per Claude Code
 
+> ⚠️ **Stato lavori in corso:** è in corso il rework v0.9 (mail team Engagement).
+> Leggi **`REWORK_STATUS.md`** per stato, numeri del Business Case ufficiale,
+> palette istituzionale Alperia, decisioni prese e TODO aperti (logo PNG + mockup Figma).
+> Branch: `claude/elegant-darwin-hlk9x` · PR #1 (draft).
+
 Questo file è un brief per Claude Code che ti aiuta a capire l'origine e l'intento del
 progetto. Leggilo prima di iniziare una sessione.
 
