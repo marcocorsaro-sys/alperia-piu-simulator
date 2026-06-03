@@ -175,7 +175,7 @@ export const screens = {
     <div className="h-full bg-gradient-to-b from-slate-900 to-slate-800 text-white overflow-y-auto">
       <div className="px-5 pt-12 pb-6">
         <div className="text-xs opacity-60 mb-1">Il tuo percorso</div>
-        <div className="text-2xl font-light mb-6">Benvenuto in Alperia più</div>
+        <div className="text-2xl font-light mb-6">Benvenuto in Alperia+</div>
 
         <div className="space-y-3">
           {[
@@ -233,7 +233,7 @@ export const screens = {
     <div className="h-full bg-gradient-to-b from-amber-950 via-slate-900 to-slate-900 text-white overflow-y-auto">
       <div className="px-5 pt-12 pb-6">
         <div className="text-xs opacity-70 mb-1 text-amber-200">Inner circle</div>
-        <div className="text-2xl font-light mb-6 text-amber-100">Alperia più <span className="italic text-amber-300">Gold</span></div>
+        <div className="text-2xl font-light mb-6 text-amber-100">Alperia<span className="text-amber-300">+</span> <span className="italic text-amber-300">Gold</span></div>
 
         <div className="space-y-3">
           {[

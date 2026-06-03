@@ -2,11 +2,13 @@ import React from 'react';
 import { ArrowRight, Sliders } from '../icons/index.jsx';
 
 const navItems = [
+  { id: 'intro', label: 'Programma' },
   { id: 'brand', label: 'Brand' },
   { id: 'experience', label: 'UX' },
   { id: 'tiers', label: 'Tier' },
   { id: 'simulator', label: 'Simulator', isSim: true },
   { id: 'economics', label: 'Economics' },
+  { id: 'consensi', label: 'Consensi' },
   { id: 'cases', label: 'Cases' },
   { id: 'timeline', label: 'Timeline' },
 ];
@@ -19,8 +21,10 @@ export default function StickyNav({ activeSection }) {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/60">
       <div className="max-w-7xl mx-auto px-8 py-3 flex justify-between items-center gap-6">
-        <a href="#cover" className="font-display text-xl text-slate-100 whitespace-nowrap hover:text-amber-300 transition-colors">
-          Alperia <span className="italic text-amber-300">più</span>
+        {/* Logo Alperia (placeholder testuale — sostituire con SVG/PNG ufficiale) + tag programma */}
+        <a href="#cover" className="flex items-baseline gap-2 whitespace-nowrap group">
+          <span className="font-display text-xl font-semibold tracking-tight text-teal-300 group-hover:text-teal-200 transition-colors">ALPERIA</span>
+          <span className="font-body text-[10px] uppercase tracking-[0.2em] text-slate-500">programma Alperia+</span>
         </a>
         <div className="hidden md:flex gap-1 items-center">
           {navItems.map((n) => (

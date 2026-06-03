@@ -19,8 +19,7 @@ export default function Hero() {
       </div>
 
       <h1 className="font-display text-7xl md:text-8xl font-light leading-[0.95] mb-6 max-w-4xl">
-        <span className="block text-slate-100">Alperia</span>
-        <span className="block italic text-amber-300 font-normal">più</span>
+        <span className="block text-slate-100">Alperia<span className="text-amber-300 font-normal">+</span></span>
       </h1>
       <p className="font-display italic text-2xl md:text-3xl text-teal-200/90 max-w-2xl mb-12 font-light">
         L'energia che ti restituisce valore.
@@ -35,7 +34,7 @@ export default function Hero() {
         {[
           { stat: '6.036', label: 'Switch-out · marzo 2026', sub: 'sui 5 canali retail core (fonte Alperia)', tone: 'red' },
           { stat: '€538M', label: 'Revenue at risk · 36 mesi', sub: 'proiezione su churn cumulato Oliver Wyman', tone: 'amber' },
-          { stat: '€545K', label: 'Valore generato · a regime', sub: 'retention, cross-sell, CAC saved, asset dato', tone: 'teal' },
+          { stat: '€965K', label: 'Ricavi del programma · 5 anni', sub: 'retention, cross-sell, CAC evitato (BC ufficiale)', tone: 'teal' },
         ].map((kpi, i) => (
           <div key={i} className={`p-6 rounded-2xl border ${kpi.tone === 'red' ? 'border-red-500/20 bg-red-950/20' : kpi.tone === 'amber' ? 'border-amber-500/20 bg-amber-950/20' : 'border-teal-500/20 bg-teal-950/30'}`}>
             <div className={`font-display text-5xl font-light mb-2 ${kpi.tone === 'red' ? 'text-red-300' : kpi.tone === 'amber' ? 'text-amber-300' : 'text-teal-300'}`}>{kpi.stat}</div>

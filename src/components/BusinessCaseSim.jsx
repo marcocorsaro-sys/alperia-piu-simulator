@@ -40,7 +40,7 @@ export default function BusinessCaseSim({
     costi: { title: 'Costi', color: 'rose', hint: 'Costi operativi ricorrenti del programma' },
   };
 
-  // Bar chart data — one bar per year with benefits/costs/net
+  // Bar chart data — one bar per year with benefits/costs/net (orizzonte 5 anni)
   const chartData = result.years.map((y) => ({
     name: `Anno ${y.year}`,
     Benefici: Math.round(y.benefits.total),
@@ -134,31 +134,31 @@ export default function BusinessCaseSim({
             {/* Headline KPIs */}
             <div className="grid grid-cols-2 gap-4 reveal">
               <KpiCard
-                label="NPV 3 anni"
-                value={formatEURK(result.npv)}
-                tone={result.npv >= 0 ? 'good' : 'bad'}
-                sub={result.npv >= 0 ? 'Valore netto positivo' : 'Sotto la soglia di sostenibilità'}
+                label="Saldo netto"
+                value={formatEURK(result.saldoNetto)}
+                tone={result.saldoNetto >= 0 ? 'good' : 'bad'}
+                sub={result.saldoNetto >= 0 ? 'Ricavi − costi sull\'orizzonte' : 'Sotto la soglia di sostenibilità'}
                 icon={TrendingUp}
               />
               <KpiCard
-                label="ROI 3 anni"
+                label="ROI orizzonte"
                 value={`${Math.round(result.roi * 100)}%`}
                 tone={result.roi > 0.1 ? 'good' : result.roi > 0 ? 'neutral' : 'bad'}
                 sub={`su ${formatEURK(result.totalCosts)} investiti`}
                 icon={Target}
               />
               <KpiCard
-                label="Break-even"
-                value={result.breakEven ? `Anno ${result.breakEven}` : '>3 anni'}
-                tone={result.breakEven && result.breakEven <= 2 ? 'good' : result.breakEven === 3 ? 'neutral' : 'bad'}
-                sub={result.breakEven ? 'Primo anno cashflow ≥ 0' : 'Non raggiunto nel triennio'}
+                label="Break-even cumulato"
+                value={result.breakEven ? `Anno ${result.breakEven}` : '>5 anni'}
+                tone={result.breakEven && result.breakEven <= 3 ? 'good' : result.breakEven && result.breakEven <= 4 ? 'neutral' : 'bad'}
+                sub={result.primoAnnoPositivo ? `Saldo annuo positivo da Anno ${result.primoAnnoPositivo}` : 'Saldo annuo sempre negativo'}
                 icon={Activity}
               />
               <KpiCard
-                label="Iscritti attivi · regime"
-                value={formatINT(result.iscrittiRegime)}
+                label="Iscritti EOP"
+                value={formatINT(result.iscrittiEOP)}
                 tone="neutral"
-                sub={`${formatINT(result.savedRegime)} clienti salvati/anno`}
+                sub={`${formatINT(result.savedRegime)} clienti salvati/anno a regime`}
                 icon={CheckCircle}
               />
             </div>
@@ -171,7 +171,7 @@ export default function BusinessCaseSim({
                   <div className="font-display text-xl text-slate-100">Benefici vs Costi · Netto</div>
                 </div>
                 <div className="font-body text-xs text-slate-400">
-                  Totale 3Y netto: <span className={`font-semibold ${result.totalNet >= 0 ? 'text-amber-300' : 'text-rose-300'}`}>{formatEURK(result.totalNet)}</span>
+                  Saldo netto totale: <span className={`font-semibold ${result.totalNet >= 0 ? 'text-amber-300' : 'text-rose-300'}`}>{formatEURK(result.totalNet)}</span>
                 </div>
               </div>
 
@@ -187,11 +187,11 @@ export default function BusinessCaseSim({
                       formatter={(v) => formatEUR(Math.abs(v))}
                     />
                     <ReferenceLine y={0} stroke="#475569" strokeWidth={1} />
-                    <Bar dataKey="Benefici" fill="#2EB5BC" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="Costi" fill="#E97062" radius={[0, 0, 4, 4]} />
+                    <Bar dataKey="Benefici" fill="#1F77A0" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="Costi" fill="#C0392B" radius={[0, 0, 4, 4]} />
                     <Bar dataKey="Netto" radius={[4, 4, 4, 4]}>
                       {chartData.map((entry, i) => (
-                        <Cell key={i} fill={entry.Netto >= 0 ? '#E8B842' : '#94a3b8'} />
+                        <Cell key={i} fill={entry.Netto >= 0 ? '#DB3700' : '#64748b'} />
                       ))}
                     </Bar>
                   </BarChart>
@@ -201,7 +201,7 @@ export default function BusinessCaseSim({
 
             {/* Benefits breakdown */}
             <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/40 reveal">
-              <div className="font-body text-[10px] uppercase tracking-wider text-slate-500 mb-4">Composizione benefici · 3 anni</div>
+              <div className="font-body text-[10px] uppercase tracking-wider text-slate-500 mb-4">Composizione benefici · orizzonte 5 anni</div>
               <BenefitBreakdown years={result.years} />
             </div>
 
@@ -249,17 +249,15 @@ function BenefitBreakdown({ years }) {
       retention: acc.retention + y.benefits.retention,
       crossSell: acc.crossSell + y.benefits.crossSell,
       cacSaved: acc.cacSaved + y.benefits.cacSaved,
-      dataAsset: acc.dataAsset + y.benefits.dataAsset,
     }),
-    { retention: 0, crossSell: 0, cacSaved: 0, dataAsset: 0 }
+    { retention: 0, crossSell: 0, cacSaved: 0 }
   );
-  const grand = totals.retention + totals.crossSell + totals.cacSaved + totals.dataAsset;
+  const grand = totals.retention + totals.crossSell + totals.cacSaved;
 
   const items = [
-    { label: 'Retention pura', value: totals.retention, color: 'bg-teal-500', subtitle: '€/cliente × saved/anno' },
-    { label: 'Cross-sell', value: totals.crossSell, color: 'bg-amber-400', subtitle: 'Easycharge, FV, wallbox' },
-    { label: 'CAC risparmiato', value: totals.cacSaved, color: 'bg-emerald-500', subtitle: 'Evitata riacquisizione' },
-    { label: 'Asset dato', value: totals.dataAsset, color: 'bg-orange-400', subtitle: 'Profilazione, consensi' },
+    { label: 'Retention', value: totals.retention, color: 'bg-teal-500', subtitle: 'Margine clienti trattenuti dal churn' },
+    { label: 'Cross-sell', value: totals.crossSell, color: 'bg-amber-400', subtitle: 'Uplift take-rate servizi energy' },
+    { label: 'CAC evitato', value: totals.cacSaved, color: 'bg-emerald-500', subtitle: 'Riacquisizione risparmiata' },
   ];
 
   return (
@@ -289,10 +287,10 @@ function BenefitBreakdown({ years }) {
 }
 
 function getVerdict(result) {
-  if (result.npv > 300000 && result.breakEven && result.breakEven <= 2) {
+  if (result.saldoNetto > 200000 && result.breakEven && result.breakEven <= 3) {
     return {
       title: 'Scenario fortemente sostenibile',
-      body: 'NPV ampiamente positivo e payback entro 2 anni. La configurazione attuale giustifica l\'investimento con margine di sicurezza. Candidate per presentazione a steering committee.',
+      body: 'Saldo netto ampiamente positivo e break-even entro il triennio. La configurazione attuale giustifica l\'investimento con margine di sicurezza. Candidata per presentazione a steering committee.',
       icon: CheckCircle,
       iconClass: 'text-amber-300',
       borderClass: 'border-amber-500/30',
@@ -300,10 +298,10 @@ function getVerdict(result) {
       textClass: 'text-amber-200',
     };
   }
-  if (result.npv > 0 && result.breakEven && result.breakEven <= 3) {
+  if (result.saldoNetto >= 0) {
     return {
       title: 'Scenario sostenibile, margine stretto',
-      body: 'Il business case sta in piedi ma richiede esecuzione disciplinata. Monitorare adesione e redemption rate nei primi 6 mesi; prevedere gate di validazione al termine del Pilot.',
+      body: 'È lo scenario del Business Case ufficiale: saldo netto positivo sull\'orizzonte, con anno 1 in investimento e ritorno annuo positivo dal secondo anno. Richiede esecuzione disciplinata — monitorare adesione e redemption rate nei primi 6 mesi.',
       icon: Target,
       iconClass: 'text-teal-300',
       borderClass: 'border-teal-500/30',
@@ -313,7 +311,7 @@ function getVerdict(result) {
   }
   return {
     title: 'Scenario sotto soglia — revisione necessaria',
-    body: 'Con queste leve il programma non si autofinanzia nel triennio. Verificare se può essere giustificato come investimento strategico (brand, asset dato) oppure alzare adesione/riduzione churn/valore per saved.',
+    body: 'Con queste leve il programma non recupera l\'investimento sull\'orizzonte. Verificare se può essere giustificato come investimento strategico (brand, valore dei consensi) oppure alzare iscritti EOP / delta churn / valore per saved.',
     icon: AlertTriangle,
     iconClass: 'text-rose-300',
     borderClass: 'border-rose-500/30',
