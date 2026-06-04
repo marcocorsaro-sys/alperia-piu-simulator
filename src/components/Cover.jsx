@@ -33,7 +33,7 @@ export default function Cover({ result, onStart }) {
       <div className="max-w-7xl mx-auto px-8 py-20 relative w-full">
         {/* Logo Alperia in cima (placeholder testuale — sostituire con SVG/PNG ufficiale) */}
         <div className={`mb-12 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
-          <span className="font-display text-2xl font-semibold tracking-tight text-teal-300">ALPERIA</span>
+          <span className="font-display text-2xl font-semibold tracking-tight text-teal-300">alperia</span>
         </div>
 
         {/* Top meta row */}

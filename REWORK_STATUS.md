@@ -92,13 +92,15 @@ Canvas scuro (slate/near-black) tenuto come layer neutro/grayscale.
 
 1. ✅ **Naming "Alperia+"** ovunque; il "logo" depotenziato a wordmark testuale (`Brand.jsx`)
    con nota che il logo definitivo è deliverable creativo SBAM.
-2. 🟡 **Logo Alperia in alto** — placeholder testuale "ALPERIA" in `Cover.jsx` + `StickyNav.jsx`.
-   **TODO: sostituire con SVG/PNG ufficiale** (cerca commento "placeholder testuale").
+2. 🟡 **Logo Alperia in alto** — placeholder testuale "alperia" (lowercase, come da
+   mockup) in `Cover.jsx` + `StickyNav.jsx`. **TODO: sostituire con SVG/PNG ufficiale**
+   (cerca commento "placeholder"). Marco non ha ancora fornito l'asset logo vero.
 3. ✅ **Sezione introduttiva** `src/components/ProgramIntro.jsx` — testo obiettivi cliente **verbatim** (non modificare).
 4. ✅ **Palette istituzionale** + note accessibilità (vedi §3 + sezione palette in `Brand.jsx`).
-5. ⏳ **Mockup app** su design Area Clienti Alperia — **BLOCCATO**. Figma irraggiungibile
-   (`api.figma.com` fuori network allowlist, board protetta, nessun tool browser nell'ambiente).
-   **TODO: con i PNG dei frame, ridisegnare `src/components/PhoneScreens.jsx`** (+ eventualmente `ScreenSections.jsx`).
+5. ✅ **Mockup app** ridisegnati nello stile **Area Clienti Alperia** (ref. PNG Figma del cliente):
+   `src/components/PhoneScreens.jsx` ora tema chiaro, header con wordmark `alperia`,
+   blu primario per header/accenti, arancione per le CTA, concetto "Energy Point",
+   schermate tier convertite da dark a light. Bottom-nav in `PhoneFrame.jsx`.
    Figma ref: https://www.figma.com/board/ZGWxckY2JioZwGPY951PpL/Area-privata-%7C-Condivisione
 6. ✅ **Valore consensi privacy** `src/components/ConsentValue.jsx`.
 
@@ -117,7 +119,7 @@ Canvas scuro (slate/near-black) tenuto come layer neutro/grayscale.
 - `npm test` → 14/14 · `npm run build` → OK (~177KB gzip)
 - Preview Vercel: deploy automatico sulla PR (Ready)
 
-## 7. Prossimi passi (quando arrivano i PNG)
-1. Logo Alperia → sostituire i 2 placeholder testuali.
-2. Mockup → ridisegnare PhoneScreens sul design Area Clienti.
-3. Poi: valutare passaggio PR da draft a ready-for-review.
+## 7. Prossimi passi
+1. **Logo Alperia ufficiale** (SVG/PNG) → sostituire i 2 placeholder testuali "alperia"
+   in `Cover.jsx` + `StickyNav.jsx` (unica cosa ancora mancante).
+2. Valutare passaggio PR da draft a ready-for-review.

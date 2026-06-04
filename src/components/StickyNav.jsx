@@ -23,7 +23,7 @@ export default function StickyNav({ activeSection }) {
       <div className="max-w-7xl mx-auto px-8 py-3 flex justify-between items-center gap-6">
         {/* Logo Alperia (placeholder testuale — sostituire con SVG/PNG ufficiale) + tag programma */}
         <a href="#cover" className="flex items-baseline gap-2 whitespace-nowrap group">
-          <span className="font-display text-xl font-semibold tracking-tight text-teal-300 group-hover:text-teal-200 transition-colors">ALPERIA</span>
+          <span className="font-display text-xl font-semibold tracking-tight text-teal-300 group-hover:text-teal-200 transition-colors">alperia</span>
           <span className="font-body text-[10px] uppercase tracking-[0.2em] text-slate-500">programma Alperia+</span>
         </a>
         <div className="hidden md:flex gap-1 items-center">
