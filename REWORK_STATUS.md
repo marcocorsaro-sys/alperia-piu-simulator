@@ -8,8 +8,7 @@
 ## TL;DR
 Rework della proposta loyalty Alperia su 3 fronti: (1) Business Case ufficiale,
 (2) Budget In, (3) feedback cliente (naming, logo, intro, palette, mockup, consensi).
-Fatto tutto **tranne** i mockup app (Figma) e il logo Alperia ufficiale — in attesa
-di **PNG da Marco** (promessi "domani").
+**Tutte le richieste completate** (BC + Budget In + 7 feedback cliente, logo ufficiale incluso).
 
 ---
 
@@ -92,9 +91,9 @@ Canvas scuro (slate/near-black) tenuto come layer neutro/grayscale.
 
 1. ✅ **Naming "Alperia+"** ovunque; il "logo" depotenziato a wordmark testuale (`Brand.jsx`)
    con nota che il logo definitivo è deliverable creativo SBAM.
-2. 🟡 **Logo Alperia in alto** — placeholder testuale "alperia" (lowercase, come da
-   mockup) in `Cover.jsx` + `StickyNav.jsx`. **TODO: sostituire con SVG/PNG ufficiale**
-   (cerca commento "placeholder"). Marco non ha ancora fornito l'asset logo vero.
+2. ✅ **Logo Alperia in alto** — SVG ufficiale (`src/assets/alperia-logo.svg`, wordmark
+   #00547A) integrato in `Cover.jsx` + `StickyNav.jsx` (variante bianca via filtro CSS
+   su sfondo scuro) e nelle schermate app (`PhoneScreens.jsx`, nativo su header bianchi).
 3. ✅ **Sezione introduttiva** `src/components/ProgramIntro.jsx` — testo obiettivi cliente **verbatim** (non modificare).
 4. ✅ **Palette istituzionale** + note accessibilità (vedi §3 + sezione palette in `Brand.jsx`).
 5. ✅ **Mockup app** ridisegnati nello stile **Area Clienti Alperia** (ref. PNG Figma del cliente):
@@ -120,6 +119,5 @@ Canvas scuro (slate/near-black) tenuto come layer neutro/grayscale.
 - Preview Vercel: deploy automatico sulla PR (Ready)
 
 ## 7. Prossimi passi
-1. **Logo Alperia ufficiale** (SVG/PNG) → sostituire i 2 placeholder testuali "alperia"
-   in `Cover.jsx` + `StickyNav.jsx` (unica cosa ancora mancante).
-2. Valutare passaggio PR da draft a ready-for-review.
+- Tutte le richieste del rework sono completate. Resta solo la decisione di Marco se
+  passare la PR #1 da **draft a ready-for-review**.

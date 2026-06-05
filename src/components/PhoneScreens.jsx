@@ -3,6 +3,7 @@ import {
   Bell, Sparkles, ChevronRight, ArrowRight, Shield, Zap, Heart, Mountain, Trophy,
   Calendar, MapPin, CheckCircle, Target, Award
 } from '../icons/index.jsx';
+import alperiaLogo from '../assets/alperia-logo.svg';
 
 // ============================================================================
 // PHONE SCREENS — le schermate del programma «Alperia+» renderizzate da PhoneFrame.
@@ -18,12 +19,14 @@ import {
 // Ogni schermata sta in un frame 320×680 (safe-zone notch + bottom-nav).
 // ============================================================================
 
-/** Wordmark Alperia per l'header delle schermate (placeholder del logo ufficiale). */
+/** Logo Alperia ufficiale per l'header delle schermate (bianco su header blu, nativo su bianco). */
 function Wordmark({ tone = 'blu' }) {
   return (
-    <span className={`font-display text-[15px] font-semibold tracking-tight ${tone === 'white' ? 'text-white' : 'text-teal-700'}`}>
-      alperia
-    </span>
+    <img
+      src={alperiaLogo}
+      alt="Alperia"
+      className={`h-[18px] w-auto ${tone === 'white' ? '[filter:brightness(0)_invert(1)]' : ''}`}
+    />
   );
 }
 
