@@ -11,7 +11,7 @@ export default function Footer() {
         <div>
           <div className="font-display text-3xl font-light text-slate-100 mb-2">Together <span className="italic text-amber-300">to get there.</span></div>
           <p className="font-body text-sm text-slate-400 leading-relaxed">
-            «Alperia più» è progettato per essere il primo programma di engagement digitale di Alperia.
+            «Alperia+» è progettato per essere il primo programma di engagement digitale di Alperia.
             Costruito sulla nuova app, integrato con il CRM esistente, dimensionato sui numeri di churn forniti da Oliver Wyman.
             Pronto per essere validato in un Pilot di tre mesi prima del rollout completo.
           </p>
@@ -38,7 +38,7 @@ export default function Footer() {
 
       <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="font-body text-xs text-slate-500">
-          Jakala per Alperia · Aprile 2026 · Proposta Programma «Alperia più»
+          Jakala per Alperia · Aprile 2026 · Proposta Programma «Alperia+»
         </div>
         <div className="font-body text-xs text-slate-500">
           Fonti dati: analisi del churn Oliver Wyman · portafoglio Alperia 01/03/2026 · benchmark loyalty energy europei

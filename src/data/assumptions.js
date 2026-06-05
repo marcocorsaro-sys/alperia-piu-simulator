@@ -1,49 +1,57 @@
 // ============================================================================
-// ALPERIA PIÙ — BUSINESS CASE ASSUMPTIONS
+// ALPERIA+ — BUSINESS CASE ASSUMPTIONS
 // ----------------------------------------------------------------------------
-// Questi valori sono il cuore del modello economico. Derivano dall'analisi
-// del churn Oliver Wyman, dal portafoglio Alperia al 01/03/2026 e dai
-// benchmark loyalty energy europei.
+// Questi valori sono il cuore del modello economico. Lo scenario "Base"
+// coincide con il Business Case ufficiale Alperia (202605_Alperia_Business_case.xlsx):
+//   • Iscritti EOP 30% addressable → 75.080
+//   • Delta churn 8% / 9% / 10% (Y1/Y2/Y3)
+//   • Uplift cross-sell 5% costante
+//   • Ricavi 3Y ~965K€ · Costi 3Y ~918K€ · Saldo netto ~47K€ (negativo Y1, positivo da Y2)
 //
 // ⚠️  Modifica SOLO questi valori di default. Il resto del modello (formule,
 //     grafici, output) si aggiorna automaticamente.
 // ============================================================================
 
 /**
- * DEFAULT (scenario Base) — valori di partenza dello simulator.
- * Corrispondono allo scenario "Base" del workbook Excel consegnato.
+ * DEFAULT (scenario Base) — coincide con il Business Case ufficiale Alperia.
  */
 export const DEFAULT_KPIS = {
-  // --- ADESIONE & ATTIVAZIONE ---
-  adesione: 0.40,              // % addressable che si iscrive
-  attivazione: 0.55,           // % iscritti che completa almeno 1 azione
-  riduzioneChurnRel: 0.05,     // riduzione relativa del churn sui membri attivi
-  upliftCrossSell: 0.05,       // % di incremento take-rate servizi energy-related
-
-  // --- ECONOMICS PER CLIENTE ---
-  valorePerSaved: 30,          // €/anno di margine per cliente salvato dal churn
-  arpuAnnuo: 1200,             // €/anno ricavo medio per cliente
-  margineContributivo: 0.12,   // % margine retail energy IT
-  vitaMediaMesi: 36,           // mesi di permanenza media cliente baseline
-  cacMedio: 110,               // € CAC medio pesato per riacquisizione
-  discountRate: 0.06,          // tasso di sconto annuo per NPV
-
-  // --- COSTI PROGRAMMA ---
-  costoSetupJakala: 70000,     // € setup piattaforma one-shot
-  costoCanonePiattaforma: 110000, // € canone Jakala annuo
-  costoContestAnnuo: 45000,    // € contest instant win annui (1×15K + 3×10K)
-  costoRewardPerMembro: 18,    // € costo catalogo per iscritto attivo/anno
-  redemptionRate: 0.35,        // % attivi che riscatta reward
-  costoAttivazione: 3,         // € one-shot per iscritto (comunicazioni)
-  costoOperativo: 120000,      // € team interno + agency annuo
-
   // --- BASE ADDRESSABLE ---
-  portfolioAddressable: 250267, // clienti con consenso + profilazione
-  churnBaselinePonderato: 0.1506, // churn 12m POR ponderato fonte OW
+  portfolioAddressable: 250267, // clienti con consenso + profilazione (fonte Alperia)
+
+  // --- ENROLLMENT ---
+  iscrittiEOPpct: 0.30,         // % addressable iscritta a fine periodo (EOP)
+  adesioneRamp: [0.80, 0.95, 1.00], // ramp di adesione cumulata Y1/Y2/Y3 (fisso, fonte BC)
+
+  // --- RETENTION (delta churn) ---
+  churnInizialeY1: 0.15,        // churn iniziale Y1 (a catena negli anni successivi)
+  deltaChurnY1: 0.08,           // delta churn Y1; Y2 = +1pp, Y3 = +2pp (pattern BC)
+
+  // --- CROSS-SELLING ---
+  upliftCrossSell: 0.05,        // uplift take-rate sui nuovi iscritti dell'anno
+
+  // --- ECONOMICS PER CLIENTE (fonte: Sintesi Ricavi BC) ---
+  valorePerSaved: 30,           // €/anno margine per cliente salvato dal churn
+  arpuAnnuo: 110,               // €/anno margine ricorrente per cliente trattenuto
+  cacMedio: 110,                // € CAC evitato per cliente salvato (riacquisizione)
+  margineContributivo: 0.25,    // % margine applicato al cross-sell
+
+  // --- COSTI PROGRAMMA (fonte: Sintesi Ricavi BC + Budget In) ---
+  costoSetupJakala: 70000,        // € setup Digital Wallet one-shot (Y1)
+  costoCanonePiattaforma: 102000, // € canone Jakala annuo
+  costoContestY1: 45000,          // € contest instant win anno 1 (primo set-up incluso)
+  costoContestRicorrente: 41000,  // € contest instant win dal Y2
+  costoRewardPerMembro: 10,       // € costo reward per iscritto/anno
+  redemptionRate: 0.15,           // % iscritti che riscatta reward
+  costoAttivazione: 0,            // € one-shot per iscritto (incluso nel canone)
+  tassoAttivazioneCosto: 0.20,    // % iscritti che genera costo di attivazione
+  costoOperativoY1: 45000,        // € team interno + agency anno 1
+  costoOperativoRicorrente: 30000,// € team interno + agency dal Y2
 };
 
 /**
  * Scenari preconfigurati — caricabili con un click nel simulator.
+ * "Base" è il Business Case ufficiale; gli altri stressano le leve principali.
  */
 export const SCENARIOS = {
   conservativo: {
@@ -51,16 +59,15 @@ export const SCENARIOS = {
     description: 'Adozione lenta, benefit marginali. Stress test del modello.',
     accent: 'rose',
     overrides: {
-      adesione: 0.25,
-      attivazione: 0.40,
-      riduzioneChurnRel: 0.03,
-      upliftCrossSell: 0.02,
+      iscrittiEOPpct: 0.20,
+      deltaChurnY1: 0.05,
+      upliftCrossSell: 0.03,
       valorePerSaved: 25,
     },
   },
   base: {
-    label: 'Base',
-    description: 'Scenario realistico, coerente con benchmark energy EU.',
+    label: 'Base · BC ufficiale',
+    description: 'Business Case ufficiale Alperia: iscritti EOP 30%, delta churn 8/9/10%.',
     accent: 'teal',
     overrides: {}, // usa i DEFAULT_KPIS
   },
@@ -69,10 +76,9 @@ export const SCENARIOS = {
     description: 'Esecuzione forte, tier premium ad alta adozione.',
     accent: 'amber',
     overrides: {
-      adesione: 0.55,
-      attivazione: 0.70,
-      riduzioneChurnRel: 0.08,
-      upliftCrossSell: 0.09,
+      iscrittiEOPpct: 0.40,
+      deltaChurnY1: 0.12,
+      upliftCrossSell: 0.08,
       valorePerSaved: 40,
     },
   },
@@ -83,60 +89,67 @@ export const SCENARIOS = {
  * Usato da KpiSlider per generare i controlli dinamicamente.
  */
 export const KPI_CONFIG = {
-  adesione: {
-    label: 'Tasso di adesione',
-    hint: '% di base addressable che si iscrive al programma',
-    min: 0.05, max: 0.75, step: 0.01,
-    format: (v) => `${(v * 100).toFixed(0)}%`,
+  iscrittiEOPpct: {
+    label: 'Iscritti EOP',
+    hint: '% di base addressable iscritta a fine periodo',
+    min: 0.15, max: 0.50, step: 0.01,
+    format: (v) => `${Math.round(v * 100)}%`,
     category: 'adozione',
   },
-  attivazione: {
-    label: 'Tasso di attivazione',
-    hint: '% di iscritti con almeno 1 azione valida',
-    min: 0.20, max: 0.90, step: 0.01,
-    format: (v) => `${(v * 100).toFixed(0)}%`,
-    category: 'adozione',
-  },
-  riduzioneChurnRel: {
-    label: 'Riduzione churn relativa',
-    hint: 'Riduzione % del churn sui membri attivi (es. 5% = da 15% a 14,3%)',
-    min: 0.02, max: 0.30, step: 0.005,
-    format: (v) => `${(v * 100).toFixed(1)}%`,
+  deltaChurnY1: {
+    label: 'Delta churn Y1',
+    hint: 'Riduzione churn anno 1 sui membri (Y2 +1pp, Y3 +2pp)',
+    min: 0.03, max: 0.20, step: 0.005,
+    format: (v) => `${(v * 100).toFixed(1).replace('.', ',')}%`,
     category: 'retention',
   },
   upliftCrossSell: {
     label: 'Uplift cross-sell',
-    hint: 'Incremento take-rate Easycharge, FV, wallbox',
+    hint: 'Incremento take-rate servizi energy-related sui nuovi iscritti',
     min: 0.01, max: 0.15, step: 0.005,
-    format: (v) => `${(v * 100).toFixed(1)}%`,
+    format: (v) => `${(v * 100).toFixed(1).replace('.', ',')}%`,
     category: 'retention',
   },
   valorePerSaved: {
     label: 'Valore €/cliente salvato/anno',
-    hint: 'Margine 1 anno per cliente trattenuto (conferma con Finance)',
-    min: 15, max: 150, step: 5,
+    hint: 'Margine annuo per cliente trattenuto dal churn',
+    min: 15, max: 60, step: 5,
     format: (v) => `€${v}`,
     category: 'economics',
   },
   arpuAnnuo: {
-    label: 'ARPU annuo',
-    hint: 'Ricavo medio per cliente (dual fuel)',
-    min: 800, max: 2500, step: 50,
+    label: 'Margine annuo €/cliente',
+    hint: 'Margine ricorrente per cliente trattenuto (BC: 110€)',
+    min: 60, max: 300, step: 10,
     format: (v) => `€${v.toLocaleString('it-IT')}`,
     category: 'economics',
   },
-  costoRewardPerMembro: {
-    label: 'Costo reward €/membro/anno',
-    hint: 'Mix esperienziale + sconti + partner',
-    min: 5, max: 50, step: 1,
-    format: (v) => `€${v}`,
-    category: 'costi',
+  margineContributivo: {
+    label: 'Margine contributivo cross-sell',
+    hint: '% margine applicato ai clienti con cross-sell',
+    min: 0.10, max: 0.40, step: 0.01,
+    format: (v) => `${Math.round(v * 100)}%`,
+    category: 'economics',
   },
   costoCanonePiattaforma: {
     label: 'Canone Jakala annuo',
     hint: 'SaaS engine, moduli Club/Contest/Catalogo, manutenzione',
-    min: 60000, max: 200000, step: 5000,
+    min: 60000, max: 160000, step: 2000,
     format: (v) => `€${(v / 1000).toFixed(0)}K`,
+    category: 'costi',
+  },
+  costoRewardPerMembro: {
+    label: 'Costo reward €/membro/anno',
+    hint: 'Mix esperienziale + sconti + partner',
+    min: 5, max: 30, step: 1,
+    format: (v) => `€${v}`,
+    category: 'costi',
+  },
+  redemptionRate: {
+    label: 'Redemption rate',
+    hint: '% iscritti che riscatta almeno un reward/anno',
+    min: 0.05, max: 0.50, step: 0.01,
+    format: (v) => `${Math.round(v * 100)}%`,
     category: 'costi',
   },
 };

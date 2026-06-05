@@ -65,7 +65,7 @@ export default function ReferenceCases() {
           },
           {
             client: 'Alperia',
-            program: 'Alperia più',
+            program: 'Alperia+',
             tag: 'In proposta · lancio set 2026',
             cb: '455K retail core',
             challenge: 'Ridurre churn nei Momenti di Verità identificati da Oliver Wyman, aumentare valore percepito oltre il prezzo, valorizzare la nuova app.',

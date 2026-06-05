@@ -11,7 +11,7 @@ export default function ExperienceIntro() {
         Cinque momenti, <span className="italic text-amber-300">cinque leve di business.</span>
       </h2>
       <p className="font-body text-base text-slate-300 leading-relaxed max-w-3xl mb-12">
-        Il programma «Alperia più» è progettato come webview integrata nella nuova app in lancio a settembre 2026.
+        Il programma «Alperia+» è progettato come webview integrata nella nuova app in lancio a settembre 2026.
         Accessibile via SSO, senza nuove registrazioni. Ogni schermata è pensata per muovere un indicatore
         di business specifico: adesione, engagement, cross-sell, retention, profilazione.
       </p>

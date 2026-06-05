@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Sliders, ArrowDown, Activity, Target } from '../icons/index.jsx';
+import alperiaLogo from '../assets/alperia-logo.svg';
 
 /**
  * Cover — la prima schermata. Posiziona il tool stesso come asset di valore
  * della proposta Jakala. Non "una presentazione", ma "uno strumento vivo".
  *
  * Elementi chiave:
- *   - Numero NPV grande che pulsa (asset del simulatore)
+ *   - Numero saldo netto grande che pulsa (asset del simulatore)
  *   - Tagline che distingue questa proposta da un pitch deck statico
  *   - CTA scroll-down per entrare nella proposta
  *   - Metadati: versione, data, contesto Oliver Wyman
@@ -19,9 +20,9 @@ export default function Cover({ result, onStart }) {
     return () => clearTimeout(t);
   }, []);
 
-  const npvFormatted = result.npv >= 0
-    ? `+€${Math.round(result.npv / 1000).toLocaleString('it-IT')}K`
-    : `-€${Math.round(Math.abs(result.npv) / 1000).toLocaleString('it-IT')}K`;
+  const saldoFormatted = result.saldoNetto >= 0
+    ? `+€${Math.round(result.saldoNetto / 1000).toLocaleString('it-IT')}K`
+    : `−€${Math.round(Math.abs(result.saldoNetto) / 1000).toLocaleString('it-IT')}K`;
 
   return (
     <section id="cover" data-section="cover" className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-slate-950">
@@ -31,6 +32,11 @@ export default function Cover({ result, onStart }) {
       <div className="absolute bottom-0 left-0 w-[700px] h-[700px] bg-gradient-to-tr from-amber-500/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-8 py-20 relative w-full">
+        {/* Logo Alperia ufficiale in cima (variante bianca su sfondo scuro) */}
+        <div className={`mb-12 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
+          <img src={alperiaLogo} alt="Alperia" className="h-7 w-auto [filter:brightness(0)_invert(1)]" />
+        </div>
+
         {/* Top meta row */}
         <div className={`flex justify-between items-start mb-20 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
           <div className="flex items-center gap-3">
@@ -53,7 +59,7 @@ export default function Cover({ result, onStart }) {
             <span className="block italic text-amber-300 mt-2">Uno strumento.</span>
           </h1>
           <p className="font-display italic text-2xl md:text-3xl text-teal-200/90 max-w-3xl font-light leading-relaxed">
-            «Alperia più» è il programma. <br className="hidden md:block" />
+            «Alperia+» è il programma. <br className="hidden md:block" />
             Questo è il simulatore che ne sostiene gli investimenti.
           </p>
         </div>
@@ -62,9 +68,9 @@ export default function Cover({ result, onStart }) {
         <div className={`mb-20 transition-all duration-1000 delay-500 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <div className="grid md:grid-cols-12 gap-8 items-center">
             <div className="md:col-span-5">
-              <div className="font-body text-[11px] uppercase tracking-[0.3em] text-slate-500 mb-3">NPV 3 anni · scenario attivo</div>
-              <div className={`font-display text-7xl md:text-8xl font-light leading-none mb-4 pulse-soft ${result.npv >= 0 ? 'text-amber-300' : 'text-rose-300'}`}>
-                {npvFormatted}
+              <div className="font-body text-[11px] uppercase tracking-[0.3em] text-slate-500 mb-3">Saldo netto · scenario attivo</div>
+              <div className={`font-display text-7xl md:text-8xl font-light leading-none mb-4 pulse-soft ${result.saldoNetto >= 0 ? 'text-amber-300' : 'text-rose-300'}`}>
+                {saldoFormatted}
               </div>
               <div className="font-body text-sm text-slate-400 max-w-md">
                 Calcolato in tempo reale sulle assumptions correnti.
@@ -77,7 +83,7 @@ export default function Cover({ result, onStart }) {
                 {[
                   { label: 'Break-even', value: result.breakEven ? `Anno ${result.breakEven}` : '>3 anni', color: 'teal' },
                   { label: 'ROI 3 anni', value: `${Math.round(result.roi * 100)}%`, color: 'amber' },
-                  { label: 'Iscritti attivi', value: `${Math.round(result.iscrittiRegime / 1000).toLocaleString('it-IT')}K`, color: 'teal' },
+                  { label: 'Iscritti EOP', value: `${Math.round(result.iscrittiEOP / 1000).toLocaleString('it-IT')}K`, color: 'teal' },
                 ].map((kpi, i) => (
                   <div
                     key={i}
@@ -99,13 +105,13 @@ export default function Cover({ result, onStart }) {
           {[
             {
               icon: Sliders,
-              title: '8 KPI modificabili',
-              body: 'Adesione, riduzione churn, valore per saved, costi reward, canone piattaforma. Ogni leva è accessibile.',
+              title: '9 leve modificabili',
+              body: 'Iscritti EOP, delta churn, valore per saved, uplift cross-sell, costi reward, canone piattaforma. Ogni leva è accessibile.',
             },
             {
               icon: Activity,
               title: 'Calcolo in tempo reale',
-              body: 'NPV, ROI, break-even, iscritti attivi si aggiornano istantaneamente ad ogni modifica.',
+              body: 'Saldo netto, ROI, break-even, iscritti EOP si aggiornano istantaneamente ad ogni modifica.',
             },
             {
               icon: Target,

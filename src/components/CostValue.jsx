@@ -18,52 +18,52 @@ export default function CostValue() {
       <div className="grid md:grid-cols-2 gap-4 mb-8 reveal">
         {[
           {
-            cost: 'Setup piattaforma',
+            cost: 'Setup Digital Wallet',
             amount: '€70K',
             period: 'one-shot · Anno 1',
-            buy: 'Loyalty engine + integrazione SSO con app Alperia + go-live',
+            buy: 'Loyalty engine J-Next a 3 tier + integrazione SSO con app/Area Clienti Alperia + go-live',
             value: 'Asset abilitante per tutto il programma',
-            bench: 'Ammortizzato su 3 anni: €23K/anno equivalenti',
+            bench: 'Budget In: servizi professionali + costi di struttura (setup)',
           },
           {
             cost: 'Canone piattaforma',
-            amount: '€110K',
+            amount: '€102K',
             period: 'ricorrente · Anni 1-3',
-            buy: 'SaaS engine, moduli Club + Contest + Catalogo, reportistica KPI base, manutenzione',
+            buy: 'SaaS J-Next, moduli Wallet + Catalogo + Contest, customer care 2° livello, dashboard PowerBI, manutenzione',
             value: 'Operatività continua del programma',
-            bench: 'In linea con benchmark: Antavo €120-180K, Talon.One €150K+',
+            bench: 'Budget In Digital Wallet €110K/anno · modellato a €102K nel BC',
           },
           {
-            cost: 'Concorsi instant win',
+            cost: 'Contest Instant Win',
             amount: '€45K',
-            period: 'Anno 1 (15K + 3×10K)',
-            buy: 'Quattro contest stagionali (primavera, estate, autunno, inverno)',
-            value: '€80-120K/anno valore engagement',
-            bench: 'Su Acea ed Enel i contest hanno generato +30-40% di MAU',
+            period: 'Anno 1 · poi €41K/anno',
+            buy: 'Primo contest a set-up + contest ricorrenti. Raccomandazione: 4 attivazioni/anno (cadenza trimestrale)',
+            value: 'Picchi di engagement e azioni di valore',
+            bench: 'Budget In: 1° contest €30K + €40K per contest aggiuntivo (quotati a parte)',
           },
           {
             cost: 'Catalogo reward',
-            amount: '€157K',
-            period: 'a regime · Anno 2',
-            buy: '€18/membro/anno × 25K iscritti × 35% redemption rate',
-            value: '€60K retention + €148K CAC saved + €270K asset dato (3Y)',
-            bench: 'Mix 30% experiential / 30% bolletta / 25% partner / 15% green',
+            amount: '~€113K',
+            period: 'a regime · Anno 3',
+            buy: '€10/membro/anno × iscritti cumulati × 15% redemption rate',
+            value: 'Leva di redemption e percezione di valore',
+            bench: 'Cresce con gli iscritti cumulati: 60K → 71K → 75K',
           },
           {
             cost: 'Team Alperia + agency',
-            amount: '€120K',
-            period: 'a regime · Anno 2',
-            buy: 'Loyalty Manager interno + agency creative + customer care 1° livello',
+            amount: '€45K',
+            period: 'Anno 1 · poi €30K/anno',
+            buy: 'Presidio operativo interno + agency a supporto del programma',
             value: 'Capability interna trasversale, riusabile post-programma',
-            bench: 'Non è costo Jakala — investimento Alperia in capability',
+            bench: 'Creatività SBAM (naming, logo, key visual): €20K opzionale, quotata a parte',
           },
           {
-            cost: 'Investimento totale 3Y',
-            amount: '€1.272K',
-            period: 'cumulato',
-            buy: 'Setup + canone + contest + reward + team',
-            value: 'Genera €1.491K di benefici · Net cashflow +€219K',
-            bench: 'Break-even al secondo anno · ROI 17% su 3 anni',
+            cost: 'Saldo netto · orizzonte BC',
+            amount: '+€47K',
+            period: 'ricavi − costi',
+            buy: 'Ricavi €965K − costi €918K (Business Case ufficiale Alperia)',
+            value: 'Saldo annuo negativo in Anno 1, positivo da Anno 2',
+            bench: 'Break-even cumulato Anno 4 · ROI ~5% sui costi',
             highlight: true,
           },
         ].map((item, i) => (
@@ -110,16 +110,16 @@ export default function CostValue() {
           <div className="md:col-span-11">
             <div className="font-body text-[10px] uppercase tracking-[0.25em] text-teal-300 font-semibold mb-2">La raccomandazione di Jakala</div>
             <div className="font-display text-2xl text-slate-100 font-light mb-4 leading-tight">
-              Il programma si ripaga al secondo anno, ma <span className="italic text-amber-300">solo se</span> Alperia accetta di valorizzarlo su quattro leve.
+              Il saldo annuo diventa positivo dal secondo anno, ma <span className="italic text-amber-300">solo se</span> Alperia valorizza il programma su più leve.
             </div>
             <p className="font-body text-sm text-slate-300 leading-relaxed mb-4">
-              La sola retention pura sui clienti salvati dal churn (€60K cumulati su 3 anni) non basta a giustificare l'investimento.
-              La proposta tiene economicamente perché aggrega valore retention, cross-sell sui prodotti energy-related (Easycharge, fotovoltaico, wallbox),
-              CAC risparmiato sulla riacquisizione e crescita dell'asset dato/consenso del CRM.
+              La sola retention pura sui clienti salvati dal churn non basta a giustificare l'investimento.
+              Il modello tiene economicamente perché aggrega valore di retention, cross-sell sui prodotti energy-related (Easycharge, fotovoltaico, wallbox),
+              CAC risparmiato sulla riacquisizione e — nel tempo — il valore della base consensata che alimenta marketing e comunicazione.
             </p>
             <p className="font-body text-sm text-slate-300 leading-relaxed">
-              Il KPI da presidiare per validare la tenuta del modello è <span className="text-teal-300 font-semibold">il tasso di adesione: ≥35% dell'addressable entro 6 mesi dal lancio</span>.
-              Sotto il 25% l'intero business case va rivisto. Per questo motivo proponiamo un Pilot di 3 mesi in fase 2 prima del rollout completo.
+              Il KPI da presidiare per validare la tenuta del modello è <span className="text-teal-300 font-semibold">il tasso di iscrizione EOP: il Business Case assume il 30% dell'addressable (75K clienti)</span>.
+              Sotto soglia l'intero business case va rivisto. Per questo proponiamo un Pilot di 3 mesi in fase 2 prima del rollout completo.
             </p>
           </div>
         </div>

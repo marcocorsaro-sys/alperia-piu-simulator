@@ -12,20 +12,23 @@ export default function Brand() {
         Un nome che <span className="italic text-amber-300">restituisce,</span> non che accumula.
       </h2>
       <p className="font-body text-base text-slate-300 leading-relaxed max-w-3xl mb-16 reveal">
-        «Alperia più» è progettato come estensione del brand Alperia, non come sotto-brand indipendente.
-        Il «più» è il rispetto delle promesse, la somma dei vantaggi territoriali, il tempo di relazione che cresce.
+        «Alperia+» è progettato come estensione del brand Alperia, non come sotto-brand indipendente.
+        Il «+» è il rispetto delle promesse, la somma dei vantaggi territoriali, il tempo di relazione che cresce.
       </p>
 
-      {/* Logo Lockup */}
+      {/* Naming wordmark (NON è il logo definitivo) */}
       <div className="grid md:grid-cols-12 gap-8 items-center mb-16 reveal">
         <div className="md:col-span-7">
           <div className="rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-900 to-teal-950/30 p-16 flex items-center justify-center">
             <div className="text-center">
               <div className="font-display font-light text-slate-100 leading-none" style={{ fontSize: '96px' }}>
-                Alperia <span className="italic text-amber-300" style={{ fontWeight: 400 }}>più</span>
+                Alperia<span className="text-amber-300" style={{ fontWeight: 400 }}>+</span>
               </div>
               <div className="mt-6 font-display italic text-2xl text-teal-300/80 font-light">
                 L'energia che ti restituisce valore.
+              </div>
+              <div className="mt-8 inline-block px-4 py-1.5 rounded-full border border-slate-700 bg-slate-900/60 font-body text-[11px] text-slate-400">
+                Wordmark provvisorio · il logo definitivo è un deliverable creativo
               </div>
             </div>
           </div>
@@ -34,8 +37,10 @@ export default function Brand() {
           <div>
             <div className="font-body text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-2">Il principio</div>
             <p className="font-body text-sm text-slate-300 leading-relaxed">
-              Logotipo composto: «Alperia» mantiene il wordmark corporate, «più» è introdotto come elemento in corsivo oro —
-              la continuità brand + la promessa di valore aggiunto, in un solo sguardo.
+              La denominazione è «Alperia+»: il wordmark corporate Alperia con il «+» come segno della promessa di valore aggiunto.
+              Questa è una resa tipografica provvisoria, <span className="text-slate-200">non un logo</span>: l'identità visiva definitiva
+              (logo, key visual, sistema iconografico) è oggetto del percorso creativo dedicato — naming, logo e color palette proprietari
+              sviluppati dall'agenzia SBAM di Jakala.
             </p>
           </div>
           <div>
@@ -61,18 +66,22 @@ export default function Brand() {
 
       {/* Palette */}
       <div className="mb-16 reveal">
-        <div className="font-body text-[10px] uppercase tracking-[0.25em] text-slate-500 mb-4">Palette cromatica</div>
+        <div className="flex items-baseline justify-between gap-4 mb-4 flex-wrap">
+          <div className="font-body text-[10px] uppercase tracking-[0.25em] text-slate-500">Palette cromatica</div>
+          <div className="font-body text-[11px] text-amber-300/80 italic">In allineamento ai colori istituzionali Alperia e alle linee guida di accessibilità</div>
+        </div>
         <div className="grid md:grid-cols-5 gap-3">
           {[
-            { name: 'Midnight', hex: '#020617', role: 'Base · sfondi scuri, autorevolezza', bg: 'bg-slate-950', fg: 'text-slate-200' },
-            { name: 'Dolomite Teal', hex: '#2EB5BC', role: 'Primario · territorio, fiducia', bg: 'bg-teal-500', fg: 'text-slate-900' },
-            { name: 'Alpine Gold', hex: '#E8B842', role: 'Accento · valore, premium', bg: 'bg-amber-400', fg: 'text-slate-900' },
-            { name: 'Warm White', hex: '#F7F4EE', role: 'Sfondi chiari · calore, aria', bg: 'bg-orange-50', fg: 'text-slate-900' },
-            { name: 'Signal Coral', hex: '#E97062', role: 'Alert · urgenza, rischio', bg: 'bg-rose-400', fg: 'text-slate-900' },
+            { name: 'Blu', hex: '#006593', role: 'Primario · brand, uso estensivo', aa: 'AA 6,39', style: { background: '#006593' }, fg: 'text-white' },
+            { name: 'Turchese', hex: '#1D7990', role: 'Secondario · a supporto del primario', aa: 'AA 5,01', style: { background: '#1D7990' }, fg: 'text-white' },
+            { name: 'Arancione', hex: '#DB3700', role: 'Accento · esclusivo per le CTA', aa: 'AA 4,60', style: { background: '#DB3700' }, fg: 'text-white' },
+            { name: 'Errore', hex: '#C0392B', role: 'Status · azione negativa', aa: '', style: { background: '#C0392B' }, fg: 'text-white' },
+            { name: 'Successo', hex: '#4E7D2E', role: 'Status · azione positiva', aa: '', style: { background: '#4E7D2E' }, fg: 'text-white' },
           ].map((c, i) => (
             <div key={i} className="rounded-xl overflow-hidden border border-slate-800">
-              <div className={`${c.bg} h-24 flex items-end p-4`}>
+              <div className="h-24 flex items-end justify-between p-4" style={c.style}>
                 <div className={`${c.fg} font-display text-xl font-semibold`}>{c.name}</div>
+                {c.aa && <div className="font-body text-[10px] text-white/90 bg-black/25 px-2 py-0.5 rounded-full">{c.aa}</div>}
               </div>
               <div className="bg-slate-900/60 p-4">
                 <div className="font-body text-[11px] text-slate-400 font-mono mb-1">{c.hex}</div>
@@ -81,6 +90,10 @@ export default function Brand() {
             </div>
           ))}
         </div>
+        <p className="font-body text-xs text-slate-500 mt-4 max-w-3xl leading-relaxed">
+          Colori istituzionali Alperia. I core seguono le best practice di accessibilità con contrasto minimo 4,5:1;
+          la scala cromatica estesa (100→10) è derivata direttamente dai colori core. Fonte: linee guida palette Alperia.
+        </p>
       </div>
 
       {/* Voice & Personality */}
