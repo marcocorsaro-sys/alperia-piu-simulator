@@ -14,6 +14,7 @@ import TierSystem from './components/TierSystem.jsx';
 import BusinessCaseSim from './components/BusinessCaseSim.jsx';
 import BusinessCaseTable from './components/BusinessCaseTable.jsx';
 import CostValue from './components/CostValue.jsx';
+import RecapCosti from './components/RecapCosti.jsx';
 import ConsentValue from './components/ConsentValue.jsx';
 import ReferenceCases from './components/ReferenceCases.jsx';
 import Timeline from './components/Timeline.jsx';
@@ -46,6 +47,7 @@ export default function App() {
       {/* Reference materials */}
       <BusinessCaseTable />
       <CostValue />
+      <RecapCosti />
       <ConsentValue />
       <ReferenceCases />
       <Timeline />

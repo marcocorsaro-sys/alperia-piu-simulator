@@ -1,9 +1,9 @@
 # Context per Claude Code
 
-> ⚠️ **Stato lavori in corso:** è in corso il rework v0.9 (mail team Engagement).
-> Leggi **`REWORK_STATUS.md`** per stato, numeri del Business Case ufficiale,
-> palette istituzionale Alperia, decisioni prese e TODO aperti (logo PNG + mockup Figma).
-> Branch: `claude/elegant-darwin-hlk9x` · PR #1 (draft).
+> ⚠️ **Ultimo aggiornamento: v1.0 — Business Case definitivo (mail Filippo, team Engagement).**
+> Leggi **`REWORK_STATUS.md`** per stato, numeri del Business Case ufficiale finale,
+> palette istituzionale Alperia, decisioni prese e voci di costo (Recap costi).
+> Branch corrente: `claude/practical-ritchie-yj84h6`.
 
 Questo file è un brief per Claude Code che ti aiuta a capire l'origine e l'intento del
 progetto. Leggilo prima di iniziare una sessione.
@@ -41,7 +41,10 @@ e rappresentano l'output finale di tipo "presentazione statica".
 - **Addressable con consenso**: 250.267 (stima basata su % consensi x % profilazione)
 - **Churn 12m ponderato**: 15,06% (media pesata sui 5 canali)
 - **Switch-out marzo 2026**: 6.036 clienti (fonte Alperia)
-- **Scenario Base**: 40% adesione, 55% attivazione, 5% riduzione churn relativa, €30/saved
+- **Scenario Base (BC finale)**: addressable +5% in 3 anni (262.780), iscritti EOP 30% (78.834),
+  delta churn 8/9/10%, uplift cross-sell 2,5%, ARPU per cliente €143 (110×1,3 forniture),
+  CAC evitato €50, beneficio cross-sell €50/cliente, reward €2/iscritto.
+  Risultati: ricavi 5Y ~1.845K€ · costi 3Y ~1.042K€ · saldo netto ~804K€ · break-even Anno 2.
 
 ## Obiettivi user experience
 

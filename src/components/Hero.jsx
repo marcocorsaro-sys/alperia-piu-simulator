@@ -34,7 +34,7 @@ export default function Hero() {
         {[
           { stat: '6.036', label: 'Switch-out · marzo 2026', sub: 'sui 5 canali retail core (fonte Alperia)', tone: 'red' },
           { stat: '€538M', label: 'Revenue at risk · 36 mesi', sub: 'proiezione su churn cumulato Oliver Wyman', tone: 'amber' },
-          { stat: '€965K', label: 'Ricavi del programma · 5 anni', sub: 'retention, cross-sell, CAC evitato (BC ufficiale)', tone: 'teal' },
+          { stat: '€1,8M', label: 'Ricavi del programma · 5 anni', sub: 'retention, cross-sell, CAC evitato (BC ufficiale)', tone: 'teal' },
         ].map((kpi, i) => (
           <div key={i} className={`p-6 rounded-2xl border ${kpi.tone === 'red' ? 'border-red-500/20 bg-red-950/20' : kpi.tone === 'amber' ? 'border-amber-500/20 bg-amber-950/20' : 'border-teal-500/20 bg-teal-950/30'}`}>
             <div className={`font-display text-5xl font-light mb-2 ${kpi.tone === 'red' ? 'text-red-300' : kpi.tone === 'amber' ? 'text-amber-300' : 'text-teal-300'}`}>{kpi.stat}</div>
