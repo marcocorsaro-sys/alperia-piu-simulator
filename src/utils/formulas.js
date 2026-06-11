@@ -5,15 +5,20 @@
 // e ritornano il modello economico completo.
 //
 // Il modello replica fedelmente il Business Case ufficiale Alperia
-// (202605_Alperia_Business_case.xlsx, fogli "Enrollment" + "Sintesi Ricavi BC"):
+// (20260f_Alperia_Business_case - final.xlsx, fogli "Enrollment" + "Sintesi Ricavi BC"):
 //
-//   1. ENROLLMENT a coorti — iscritti EOP (30% addressable), distribuiti su 3
-//      anni con ramp di adesione 80% / 95% / 100%.
-//   2. SITI TRATTENUTI — ogni coorte genera "clienti salvati" per 3 anni, con
-//      delta churn crescente (8% / 9% / 10%) su un churn iniziale a catena.
-//   3. CROSS-SELLING — uplift take-rate sui nuovi iscritti dell'anno.
-//   4. SINTESI ECONOMICA — ricavi (retention + cross-sell + CAC evitato) su un
-//      orizzonte di 5 anni; costi modellati sui primi 3 anni.
+//   1. ENROLLMENT a coorti — addressable 250.267 cresciuto del 5% in 3 anni
+//      (262.780), iscritti EOP 30% (78.834), distribuiti su 3 anni con ramp di
+//      adesione 80% / 95% / 100%.
+//   2. SITI TRATTENUTI — modello a coorti con base "iscritti cumulati − salvati
+//      già realizzati", delta churn crescente (8% / 9% / 10%) su churn iniziale
+//      a catena (15% → 13,8% → 12,56%). Ogni coorte salva per 3 anni.
+//   3. CROSS-SELLING — uplift take-rate 2,5% (Y1 sui nuovi iscritti, Y2/Y3 sui
+//      cumulati).
+//   4. NUOVI CLIENTI (CAC) — sotto-modello: la base cresce del 5% (12.513 nuovi),
+//      30% iscrive (3.754), ramp 80/95/100. Genera il beneficio "CAC evitato".
+//   5. SINTESI ECONOMICA — ricavi (retention + cross-sell + CAC) su 5 anni;
+//      costi modellati sui primi 3 anni.
 //
 // Testabili: ogni funzione è deterministica, stateless, unitestabile.
 // Vedi formulas.test.js per il pin dei numeri ufficiali del BC.
@@ -25,7 +30,7 @@ export const BENEFIT_YEARS = 5;     // i benefici maturano fino a 5 anni (code c
 export const COHORT_LIFESPAN = 3;   // ogni coorte genera "saved" per 3 anni dall'iscrizione
 
 /**
- * Ramp di adesione cumulata per anno (foglio Enrollment, B13:E13).
+ * Ramp di adesione cumulata per anno (foglio Enrollment).
  * Y1 80% → Y2 95% → Y3 100% degli iscritti EOP target.
  */
 const ADESIONE_RAMP = [0.80, 0.95, 1.00];
@@ -40,39 +45,66 @@ function deltaChurnVector(kpis) {
 }
 
 /**
- * 1. ENROLLMENT — iscritti EOP e distribuzione per coorte annuale.
+ * Distribuisce un target di iscritti EOP sui 3 anni secondo la ramp di adesione.
  * Ritorna { iscrittiEOP, coorti: [{ year, adesioneCum, iscrittiAnno, iscrittiCum }] }
  */
-export function calcEnrollment(kpis) {
-  const iscrittiEOP = kpis.portfolioAddressable * kpis.iscrittiEOPpct;
-  const ramp = kpis.adesioneRamp ?? ADESIONE_RAMP;
-
+function distribuisciIscritti(iscrittiEOP, ramp) {
   let prevCum = 0;
   let cumIscritti = 0;
   const coorti = ramp.map((adesioneCum, i) => {
     const iscrittiAnno = (adesioneCum - prevCum) * iscrittiEOP;
     prevCum = adesioneCum;
     cumIscritti += iscrittiAnno;
-    return {
-      year: i + 1,
-      adesioneCum,
-      iscrittiAnno,
-      iscrittiCum: cumIscritti,
-    };
+    return { year: i + 1, adesioneCum, iscrittiAnno, iscrittiCum: cumIscritti };
   });
-
   return { iscrittiEOP, coorti };
 }
 
 /**
- * 2. SITI TRATTENUTI — clienti salvati per anno solare.
+ * 1. ENROLLMENT — iscritti EOP e distribuzione per coorte annuale.
+ *
+ * Due popolazioni distinte (foglio Enrollment):
+ *   • Principale ("Scenario Jakala"): addressable cresciuto del 5% in 3 anni,
+ *     30% iscrive. Guida retention + cross-sell.
+ *   • Nuovi clienti: la sola crescita del 5% della base (12.513), 30% iscrive
+ *     (3.754). Guida il beneficio "CAC evitato".
+ *
+ * Ritorna { iscrittiEOP, coorti, addressable, nuoviClienti: { iscrittiEOP, coorti } }
+ */
+export function calcEnrollment(kpis) {
+  const ramp = kpis.adesioneRamp ?? ADESIONE_RAMP;
+
+  // Addressable cresciuto del 5% in 3 anni (Cb in tre anni)
+  const addressable = kpis.portfolioAddressableBase * (1 + kpis.crescitaCB);
+  const iscrittiEOP = addressable * kpis.iscrittiEOPpct;
+  const principale = distribuisciIscritti(iscrittiEOP, ramp);
+
+  // Nuovi clienti generati dalla sola crescita della base (5%)
+  const nuovaCB = kpis.portfolioAddressableBase * kpis.crescitaCB;
+  const iscrittiEOPnuovi = nuovaCB * kpis.iscrittiEOPpct;
+  const nuoviClienti = distribuisciIscritti(iscrittiEOPnuovi, ramp);
+
+  return {
+    iscrittiEOP,
+    coorti: principale.coorti,
+    addressable,
+    nuoviClienti,
+  };
+}
+
+/**
+ * 2. SITI TRATTENUTI — clienti salvati per anno solare (modello a coorti BC).
  *
  * Churn iniziale a catena: Y1 = churnInizialeY1, Y(n) = churn finale Y(n-1).
  * Churn finale = churn iniziale × (1 − delta).
- * Ogni coorte j salva ogni anno: iscrittiAnno[j] × (churnIniziale[j] − churnFinale[j])
- * e contribuisce per COHORT_LIFESPAN anni a partire dall'anno di iscrizione.
  *
- * Ritorna { savedPerSolarYear: number[BENEFIT_YEARS], churnIniziale, churnFinale, deltaChurn }
+ * La base di ogni coorte j è "iscritti cumulati[j] − salvati già realizzati negli
+ * anni precedenti" (foglio Enrollment, C45 = D30 − D42, C46 = E30 − E42).
+ * Ogni coorte salva ogni anno: base[j] × (churnIniziale[j] − churnFinale[j]) e
+ * contribuisce per COHORT_LIFESPAN anni a partire dall'anno di iscrizione.
+ *
+ * Ritorna { savedPerSolarYear: number[BENEFIT_YEARS], savedPerCohort,
+ *           churnIniziale, churnFinale, deltaChurn }
  */
 export function calcSaved(kpis, enrollment) {
   const deltaChurn = deltaChurnVector(kpis);
@@ -84,10 +116,18 @@ export function calcSaved(kpis, enrollment) {
     churnFinale[i] = churnIniziale[i] * (1 - deltaChurn[i]);
   }
 
-  // Saved annuo generato da ciascuna coorte (costante per tutta la sua vita)
-  const savedPerCohort = enrollment.coorti.map(
-    (c, j) => c.iscrittiAnno * (churnIniziale[j] - churnFinale[j])
-  );
+  // Tasso di salvataggio annuo per coorte = churnIniziale − churnFinale
+  const tassoSaved = churnIniziale.map((ci, i) => ci - churnFinale[i]);
+
+  // Saved annuo per coorte. La base scala progressivamente: cumulati[j] meno i
+  // salvati già realizzati negli anni precedenti (runningSaved).
+  let runningSaved = 0;
+  const savedPerCohort = enrollment.coorti.map((c, j) => {
+    const base = c.iscrittiCum - runningSaved;
+    const saved = base * tassoSaved[j];
+    runningSaved += saved;
+    return saved;
+  });
 
   // Aggregazione per anno solare (coorte j attiva negli anni j..j+LIFESPAN-1)
   const savedPerSolarYear = Array.from({ length: BENEFIT_YEARS }, (_, k) => {
@@ -99,16 +139,18 @@ export function calcSaved(kpis, enrollment) {
     }, 0);
   });
 
-  return { savedPerSolarYear, churnIniziale, churnFinale, deltaChurn };
+  return { savedPerSolarYear, savedPerCohort, churnIniziale, churnFinale, deltaChurn };
 }
 
 /**
  * 3. CROSS-SELLING — clienti con cross-sell cumulati per anno (solo anni di enrollment).
+ * Y1 sui nuovi iscritti dell'anno, Y2/Y3 sui cumulati (foglio Enrollment C54/D54/E54).
  */
 export function calcCrossSell(kpis, enrollment) {
   let cum = 0;
-  return enrollment.coorti.map((c) => {
-    const anno = kpis.upliftCrossSell * c.iscrittiAnno;
+  return enrollment.coorti.map((c, i) => {
+    const base = i === 0 ? c.iscrittiAnno : c.iscrittiCum;
+    const anno = kpis.upliftCrossSell * base;
     cum += anno;
     return { year: c.year, anno, cum };
   });
@@ -123,20 +165,21 @@ export function calcModel(kpis) {
   const { savedPerSolarYear } = calcSaved(kpis, enrollment);
   const crossSell = calcCrossSell(kpis, enrollment);
 
-  // Valore annuo per cliente trattenuto: margine "saved" + margine ARPU
-  const valoreRetentionUnit = kpis.valorePerSaved + kpis.arpuAnnuo;
-  const valoreCrossSellUnit = kpis.arpuAnnuo * kpis.margineContributivo;
+  // ARPU per cliente = ARPU per fornitura × punti di fornitura medi (110 × 1,3 = 143)
+  const arpuPerCliente = kpis.arpuAnnuoPerFornitura * kpis.puntiFornituraMedi;
 
   const years = Array.from({ length: BENEFIT_YEARS }, (_, i) => {
     const year = i + 1;
     const saved = savedPerSolarYear[i];
-    const coorte = enrollment.coorti[i]; // undefined oltre l'anno 3
+    const coorte = enrollment.coorti[i];                // undefined oltre l'anno 3
+    const nuoviAnno = enrollment.nuoviClienti.coorti[i]; // undefined oltre l'anno 3
     const crossSellCum = crossSell[i] ? crossSell[i].cum : 0;
 
     // --- BENEFICI ---
-    const retention = valoreRetentionUnit * saved;
-    const crossSellValue = valoreCrossSellUnit * crossSellCum;
-    const cacSaved = kpis.cacMedio * saved;
+    const retention = arpuPerCliente * saved;
+    const crossSellValue = kpis.beneficioCrossSell * crossSellCum;
+    // CAC evitato sui nuovi clienti acquisiti dalla crescita base (solo anni di enrollment)
+    const cacSaved = nuoviAnno ? kpis.cacMedio * nuoviAnno.iscrittiAnno : 0;
     const benefitsTotal = retention + crossSellValue + cacSaved;
 
     // --- COSTI (solo nei primi COST_YEARS anni) ---
@@ -145,15 +188,14 @@ export function calcModel(kpis) {
       const setup = year === 1 ? kpis.costoSetupJakala : 0;
       const platform = kpis.costoCanonePiattaforma;
       const contest = year === 1 ? kpis.costoContestY1 : kpis.costoContestRicorrente;
-      const reward = kpis.redemptionRate * coorte.iscrittiCum * kpis.costoRewardPerMembro;
+      const reward = coorte.iscrittiCum * kpis.costoRewardPerMembro;
       const ops = year === 1 ? kpis.costoOperativoY1 : kpis.costoOperativoRicorrente;
-      const activation = kpis.tassoAttivazioneCosto * coorte.iscrittiAnno * kpis.costoAttivazione;
       costs = {
-        setup, platform, contest, reward, ops, activation,
-        total: setup + platform + contest + reward + ops + activation,
+        setup, platform, contest, reward, ops,
+        total: setup + platform + contest + reward + ops,
       };
     } else {
-      costs = { setup: 0, platform: 0, contest: 0, reward: 0, ops: 0, activation: 0, total: 0 };
+      costs = { setup: 0, platform: 0, contest: 0, reward: 0, ops: 0, total: 0 };
     }
 
     return {
@@ -215,7 +257,7 @@ export function runBusinessCase(kpis) {
   const totalCosts = years.reduce((acc, y) => acc + y.costs.total, 0);
   const totalNet = totalBenefits - totalCosts;
 
-  // "A regime": picco di clienti salvati/anno (anno 3, ultima coorte inclusa)
+  // "A regime": picco di clienti salvati/anno (anno 3, tutte le coorti attive)
   const savedRegime = Math.max(...savedPerSolarYear);
 
   return {

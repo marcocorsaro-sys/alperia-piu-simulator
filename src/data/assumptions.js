@@ -2,11 +2,15 @@
 // ALPERIA+ — BUSINESS CASE ASSUMPTIONS
 // ----------------------------------------------------------------------------
 // Questi valori sono il cuore del modello economico. Lo scenario "Base"
-// coincide con il Business Case ufficiale Alperia (202605_Alperia_Business_case.xlsx):
-//   • Iscritti EOP 30% addressable → 75.080
-//   • Delta churn 8% / 9% / 10% (Y1/Y2/Y3)
-//   • Uplift cross-sell 5% costante
-//   • Ricavi 3Y ~965K€ · Costi 3Y ~918K€ · Saldo netto ~47K€ (negativo Y1, positivo da Y2)
+// coincide con il Business Case ufficiale Alperia
+// (20260f_Alperia_Business_case - final.xlsx):
+//   • Addressable 250.267 cresciuto del 5% in 3 anni → 262.780
+//   • Iscritti EOP 30% → 78.834
+//   • Delta churn 8% / 9% / 10% (Y1/Y2/Y3), churn iniziale 15%
+//   • Uplift cross-sell 2,5% · ARPU per cliente €143 (110 × 1,3 forniture)
+//   • CAC evitato €50 sui nuovi clienti · beneficio cross-sell €50/cliente
+//   • Ricavi 5Y ~1.845K€ · Costi 3Y ~1.042K€ · Saldo netto ~804K€
+//     (negativo Y1, positivo da Y2 · break-even cumulato Anno 2)
 //
 // ⚠️  Modifica SOLO questi valori di default. Il resto del modello (formule,
 //     grafici, output) si aggiorna automaticamente.
@@ -17,36 +21,34 @@
  */
 export const DEFAULT_KPIS = {
   // --- BASE ADDRESSABLE ---
-  portfolioAddressable: 250267, // clienti con consenso + profilazione (fonte Alperia)
+  portfolioAddressableBase: 250267, // clienti con consenso + profilazione (fonte Alperia)
+  crescitaCB: 0.05,                 // crescita della base addressable in 3 anni (BC)
 
   // --- ENROLLMENT ---
-  iscrittiEOPpct: 0.30,         // % addressable iscritta a fine periodo (EOP)
+  iscrittiEOPpct: 0.30,             // % addressable iscritta a fine periodo (EOP)
   adesioneRamp: [0.80, 0.95, 1.00], // ramp di adesione cumulata Y1/Y2/Y3 (fisso, fonte BC)
 
   // --- RETENTION (delta churn) ---
-  churnInizialeY1: 0.15,        // churn iniziale Y1 (a catena negli anni successivi)
-  deltaChurnY1: 0.08,           // delta churn Y1; Y2 = +1pp, Y3 = +2pp (pattern BC)
+  churnInizialeY1: 0.15,            // churn iniziale Y1 (a catena negli anni successivi)
+  deltaChurnY1: 0.08,               // delta churn Y1; Y2 = +1pp, Y3 = +2pp (pattern BC)
 
   // --- CROSS-SELLING ---
-  upliftCrossSell: 0.05,        // uplift take-rate sui nuovi iscritti dell'anno
+  upliftCrossSell: 0.025,           // uplift take-rate (Y1 sui nuovi iscritti, Y2/Y3 sui cumulati)
 
   // --- ECONOMICS PER CLIENTE (fonte: Sintesi Ricavi BC) ---
-  valorePerSaved: 30,           // €/anno margine per cliente salvato dal churn
-  arpuAnnuo: 110,               // €/anno margine ricorrente per cliente trattenuto
-  cacMedio: 110,                // € CAC evitato per cliente salvato (riacquisizione)
-  margineContributivo: 0.25,    // % margine applicato al cross-sell
+  arpuAnnuoPerFornitura: 110,       // €/anno margine per fornitura
+  puntiFornituraMedi: 1.3,          // forniture medie per cliente → ARPU cliente = 143€
+  cacMedio: 50,                     // € CAC evitato per nuovo cliente acquisito
+  beneficioCrossSell: 50,           // €/anno margine per cliente con cross-sell
 
-  // --- COSTI PROGRAMMA (fonte: Sintesi Ricavi BC + Budget In) ---
-  costoSetupJakala: 70000,        // € setup Digital Wallet one-shot (Y1)
-  costoCanonePiattaforma: 102000, // € canone Jakala annuo
-  costoContestY1: 45000,          // € contest instant win anno 1 (primo set-up incluso)
-  costoContestRicorrente: 41000,  // € contest instant win dal Y2
-  costoRewardPerMembro: 10,       // € costo reward per iscritto/anno
-  redemptionRate: 0.15,           // % iscritti che riscatta reward
-  costoAttivazione: 0,            // € one-shot per iscritto (incluso nel canone)
-  tassoAttivazioneCosto: 0.20,    // % iscritti che genera costo di attivazione
-  costoOperativoY1: 45000,        // € team interno + agency anno 1
-  costoOperativoRicorrente: 30000,// € team interno + agency dal Y2
+  // --- COSTI PROGRAMMA (fonte: Sintesi Ricavi BC + Recap costi) ---
+  costoSetupJakala: 70000,         // € setup Digital Wallet one-shot (Y1)
+  costoCanonePiattaforma: 102000,  // € canone/maintenance Jakala annuo
+  costoContestY1: 45000,           // € contest instant win anno 1 (primo set-up incluso)
+  costoContestRicorrente: 41000,   // € contest instant win dal Y2
+  costoRewardPerMembro: 2,         // € costo reward per iscritto cumulato/anno (BC)
+  costoOperativoY1: 45000,         // € team interno + agency anno 1
+  costoOperativoRicorrente: 30000, // € team interno + agency dal Y2
 };
 
 /**
@@ -61,8 +63,8 @@ export const SCENARIOS = {
     overrides: {
       iscrittiEOPpct: 0.20,
       deltaChurnY1: 0.05,
-      upliftCrossSell: 0.03,
-      valorePerSaved: 25,
+      upliftCrossSell: 0.015,
+      cacMedio: 30,
     },
   },
   base: {
@@ -78,8 +80,8 @@ export const SCENARIOS = {
     overrides: {
       iscrittiEOPpct: 0.40,
       deltaChurnY1: 0.12,
-      upliftCrossSell: 0.08,
-      valorePerSaved: 40,
+      upliftCrossSell: 0.05,
+      beneficioCrossSell: 70,
     },
   },
 };
@@ -105,51 +107,51 @@ export const KPI_CONFIG = {
   },
   upliftCrossSell: {
     label: 'Uplift cross-sell',
-    hint: 'Incremento take-rate servizi energy-related sui nuovi iscritti',
-    min: 0.01, max: 0.15, step: 0.005,
+    hint: 'Incremento take-rate servizi energy-related sugli iscritti',
+    min: 0.005, max: 0.10, step: 0.005,
     format: (v) => `${(v * 100).toFixed(1).replace('.', ',')}%`,
     category: 'retention',
   },
-  valorePerSaved: {
-    label: 'Valore €/cliente salvato/anno',
-    hint: 'Margine annuo per cliente trattenuto dal churn',
-    min: 15, max: 60, step: 5,
-    format: (v) => `€${v}`,
-    category: 'economics',
-  },
-  arpuAnnuo: {
-    label: 'Margine annuo €/cliente',
-    hint: 'Margine ricorrente per cliente trattenuto (BC: 110€)',
-    min: 60, max: 300, step: 10,
+  arpuAnnuoPerFornitura: {
+    label: 'ARPU annuo €/fornitura',
+    hint: 'Margine ricorrente per fornitura attiva (BC: 110€)',
+    min: 60, max: 250, step: 10,
     format: (v) => `€${v.toLocaleString('it-IT')}`,
     category: 'economics',
   },
-  margineContributivo: {
-    label: 'Margine contributivo cross-sell',
-    hint: '% margine applicato ai clienti con cross-sell',
-    min: 0.10, max: 0.40, step: 0.01,
-    format: (v) => `${Math.round(v * 100)}%`,
+  puntiFornituraMedi: {
+    label: 'Forniture medie / cliente',
+    hint: 'Punti di fornitura medi per cliente (ARPU cliente = ARPU × forniture)',
+    min: 1.0, max: 2.0, step: 0.1,
+    format: (v) => `${v.toFixed(1).replace('.', ',')}×`,
+    category: 'economics',
+  },
+  beneficioCrossSell: {
+    label: 'Beneficio cross-sell €/cliente',
+    hint: 'Margine annuo per cliente con servizio cross-sell attivato',
+    min: 20, max: 120, step: 5,
+    format: (v) => `€${v}`,
+    category: 'economics',
+  },
+  cacMedio: {
+    label: 'CAC evitato €/cliente',
+    hint: 'Valore di acquisizione per nuovo cliente entrato col programma',
+    min: 20, max: 150, step: 5,
+    format: (v) => `€${v}`,
     category: 'economics',
   },
   costoCanonePiattaforma: {
     label: 'Canone Jakala annuo',
-    hint: 'SaaS engine, moduli Club/Contest/Catalogo, manutenzione',
+    hint: 'SaaS engine, moduli Wallet/Contest/Catalogo, manutenzione',
     min: 60000, max: 160000, step: 2000,
     format: (v) => `€${(v / 1000).toFixed(0)}K`,
     category: 'costi',
   },
   costoRewardPerMembro: {
-    label: 'Costo reward €/membro/anno',
-    hint: 'Mix esperienziale + sconti + partner',
-    min: 5, max: 30, step: 1,
+    label: 'Costo reward €/iscritto/anno',
+    hint: 'Budget reward per iscritto cumulato (BC: €2)',
+    min: 1, max: 12, step: 1,
     format: (v) => `€${v}`,
-    category: 'costi',
-  },
-  redemptionRate: {
-    label: 'Redemption rate',
-    hint: '% iscritti che riscatta almeno un reward/anno',
-    min: 0.05, max: 0.50, step: 0.01,
-    format: (v) => `${Math.round(v * 100)}%`,
     category: 'costi',
   },
 };

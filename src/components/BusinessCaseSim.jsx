@@ -255,9 +255,9 @@ function BenefitBreakdown({ years }) {
   const grand = totals.retention + totals.crossSell + totals.cacSaved;
 
   const items = [
-    { label: 'Retention', value: totals.retention, color: 'bg-teal-500', subtitle: 'Margine clienti trattenuti dal churn' },
-    { label: 'Cross-sell', value: totals.crossSell, color: 'bg-amber-400', subtitle: 'Uplift take-rate servizi energy' },
-    { label: 'CAC evitato', value: totals.cacSaved, color: 'bg-emerald-500', subtitle: 'Riacquisizione risparmiata' },
+    { label: 'Retention', value: totals.retention, color: 'bg-teal-500', subtitle: 'Margine clienti trattenuti dal churn (€143)' },
+    { label: 'Cross-sell', value: totals.crossSell, color: 'bg-amber-400', subtitle: 'Uplift take-rate servizi energy (€50/cliente)' },
+    { label: 'CAC evitato', value: totals.cacSaved, color: 'bg-emerald-500', subtitle: 'Valore acquisizione nuovi clienti (€50)' },
   ];
 
   return (
@@ -287,10 +287,10 @@ function BenefitBreakdown({ years }) {
 }
 
 function getVerdict(result) {
-  if (result.saldoNetto > 200000 && result.breakEven && result.breakEven <= 3) {
+  if (result.saldoNetto > 400000 && result.breakEven && result.breakEven <= 3) {
     return {
       title: 'Scenario fortemente sostenibile',
-      body: 'Saldo netto ampiamente positivo e break-even entro il triennio. La configurazione attuale giustifica l\'investimento con margine di sicurezza. Candidata per presentazione a steering committee.',
+      body: 'È lo scenario del Business Case ufficiale: saldo netto ampiamente positivo e break-even entro il triennio (Anno 2), con anno 1 in investimento e ritorno annuo positivo già dal secondo anno. La configurazione giustifica l\'investimento con margine di sicurezza — candidata per presentazione a steering committee.',
       icon: CheckCircle,
       iconClass: 'text-amber-300',
       borderClass: 'border-amber-500/30',
@@ -301,7 +301,7 @@ function getVerdict(result) {
   if (result.saldoNetto >= 0) {
     return {
       title: 'Scenario sostenibile, margine stretto',
-      body: 'È lo scenario del Business Case ufficiale: saldo netto positivo sull\'orizzonte, con anno 1 in investimento e ritorno annuo positivo dal secondo anno. Richiede esecuzione disciplinata — monitorare adesione e redemption rate nei primi 6 mesi.',
+      body: 'Saldo netto positivo sull\'orizzonte, con anno 1 in investimento e ritorno annuo positivo dal secondo anno. Richiede esecuzione disciplinata — monitorare adesione e cross-sell nei primi 6 mesi.',
       icon: Target,
       iconClass: 'text-teal-300',
       borderClass: 'border-teal-500/30',
@@ -311,7 +311,7 @@ function getVerdict(result) {
   }
   return {
     title: 'Scenario sotto soglia — revisione necessaria',
-    body: 'Con queste leve il programma non recupera l\'investimento sull\'orizzonte. Verificare se può essere giustificato come investimento strategico (brand, valore dei consensi) oppure alzare iscritti EOP / delta churn / valore per saved.',
+    body: 'Con queste leve il programma non recupera l\'investimento sull\'orizzonte. Verificare se può essere giustificato come investimento strategico (brand, valore dei consensi) oppure alzare iscritti EOP / delta churn / ARPU per cliente.',
     icon: AlertTriangle,
     iconClass: 'text-rose-300',
     borderClass: 'border-rose-500/30',

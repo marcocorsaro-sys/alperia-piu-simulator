@@ -14,15 +14,15 @@ export default function BusinessCaseTable() {
   const Y = r.years; // 5 anni
 
   const benefitRows = [
-    { label: 'Margine retention (€30 + €110 × salvati)', get: (y) => y.benefits.retention },
-    { label: 'Cross-sell (Easycharge, FV, wallbox)', get: (y) => y.benefits.crossSell },
-    { label: 'CAC evitato (€110 × salvati)', get: (y) => y.benefits.cacSaved },
+    { label: 'Margine retention (€143 per cliente salvato)', get: (y) => y.benefits.retention },
+    { label: 'Cross-sell (Easycharge, FV, wallbox · €50/cliente)', get: (y) => y.benefits.crossSell },
+    { label: 'CAC evitato (€50 × nuovi clienti acquisiti)', get: (y) => y.benefits.cacSaved },
   ];
   const costRows = [
     { label: 'Setup Jakala (one-shot)', get: (y) => y.costs.setup },
     { label: 'Canone piattaforma Jakala', get: (y) => y.costs.platform },
     { label: 'Contest instant win', get: (y) => y.costs.contest },
-    { label: 'Reward catalogo (€10/membro × redemption 15%)', get: (y) => y.costs.reward },
+    { label: 'Budget reward (€2 × iscritti cumulati)', get: (y) => y.costs.reward },
     { label: 'Team interno + agency', get: (y) => y.costs.ops },
   ];
 
@@ -41,11 +41,12 @@ export default function BusinessCaseTable() {
       <div className="font-body text-xs uppercase tracking-[0.25em] text-amber-300 mb-4">Business case · ufficiale</div>
       <h2 className="font-display text-5xl font-light mb-3">I numeri che lo rendono <span className="italic text-amber-300">sostenibile.</span></h2>
       <p className="font-body text-base text-slate-400 mb-2 max-w-3xl leading-relaxed">
-        Business Case ufficiale Alperia, applicato al portafoglio addressable (250.267 clienti con consenso e profilazione).
+        Business Case ufficiale Alperia, applicato al portafoglio addressable (250.267 clienti con consenso e profilazione),
+        cresciuto del 5% sull'orizzonte di piano → 262.780.
       </p>
       <p className="font-body text-sm text-slate-500 mb-12 max-w-3xl">
-        Ipotesi: iscritti EOP 30% (75.080), delta churn 8% / 9% / 10% (Y1/Y2/Y3), uplift cross-sell 5% costante,
-        €30 di margine annuo per cliente trattenuto. Benefici modellati su 5 anni (code coorti), costi sui primi 3.
+        Ipotesi: iscritti EOP 30% (78.834), delta churn 8% / 9% / 10% (Y1/Y2/Y3), uplift cross-sell 2,5%,
+        ARPU per cliente €143 (110€ × 1,3 forniture). Benefici modellati su 5 anni (code coorti), costi sui primi 3.
       </p>
 
       {/* P&L */}

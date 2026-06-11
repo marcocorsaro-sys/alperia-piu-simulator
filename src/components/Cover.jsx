@@ -81,8 +81,8 @@ export default function Cover({ result, onStart }) {
             <div className="md:col-span-7">
               <div className="grid grid-cols-3 gap-4">
                 {[
-                  { label: 'Break-even', value: result.breakEven ? `Anno ${result.breakEven}` : '>3 anni', color: 'teal' },
-                  { label: 'ROI 3 anni', value: `${Math.round(result.roi * 100)}%`, color: 'amber' },
+                  { label: 'Break-even', value: result.breakEven ? `Anno ${result.breakEven}` : '>5 anni', color: 'teal' },
+                  { label: 'ROI orizzonte', value: `${Math.round(result.roi * 100)}%`, color: 'amber' },
                   { label: 'Iscritti EOP', value: `${Math.round(result.iscrittiEOP / 1000).toLocaleString('it-IT')}K`, color: 'teal' },
                 ].map((kpi, i) => (
                   <div
@@ -106,7 +106,7 @@ export default function Cover({ result, onStart }) {
             {
               icon: Sliders,
               title: '9 leve modificabili',
-              body: 'Iscritti EOP, delta churn, valore per saved, uplift cross-sell, costi reward, canone piattaforma. Ogni leva è accessibile.',
+              body: 'Iscritti EOP, delta churn, uplift cross-sell, ARPU per cliente, CAC, costi reward, canone piattaforma. Ogni leva è accessibile.',
             },
             {
               icon: Activity,

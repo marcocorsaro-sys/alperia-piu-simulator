@@ -1,54 +1,60 @@
-# Stato rework v0.9 — Handoff
+# Stato rework v1.0 — Handoff
 
 > Documento di memoria della sessione di rework (mail Filippo, team Engagement).
 > Serve a riprendere il lavoro senza dipendere dagli allegati caricati in chat
 > (l'ambiente è effimero: solo ciò che è committato persiste).
-> Branch di sviluppo: `claude/elegant-darwin-hlk9x` · PR: **#1 (draft)**.
+> Branch corrente: `claude/practical-ritchie-yj84h6`.
 
 ## TL;DR
-Rework della proposta loyalty Alperia su 3 fronti: (1) Business Case ufficiale,
-(2) Budget In, (3) feedback cliente (naming, logo, intro, palette, mockup, consensi).
-**Tutte le richieste completate** (BC + Budget In + 7 feedback cliente, logo ufficiale incluso).
+v1.0: integrato il **Business Case definitivo** (`20260f_Alperia_Business case - final.xlsx`)
+e il **Recap costi** (`Alperia_2026_Proposta Loyalty_Recap costi.xlsx`). Sostituisce il
+modello v0.9. Engine + test riallineati ai numeri ufficiali finali; nuova sezione
+`RecapCosti.jsx` con la vista d'offerta dei costi (Anno 1).
+v0.9 (precedente): naming Alperia+, logo ufficiale, palette istituzionale, mockup Area
+Clienti, intro programma, valore consensi — **tutte completate** (vedi §4).
 
 ---
 
-## 1. Business Case ufficiale (sostituisce il vecchio modello)
+## 1. Business Case definitivo (v1.0 — sostituisce il modello v0.9)
 
-Fonte: `202605_Alperia_Business_case.xlsx` (fogli *Enrollment* + *Sintesi Ricavi BC*).
+Fonte: `20260f_Alperia_Business case - final.xlsx` (fogli *Enrollment* + *Sintesi Ricavi BC*).
 Modello **a coorti**, riprodotto fedelmente in `src/utils/formulas.js` e bloccato
-da test in `src/utils/formulas.test.js` (14 test, `npm test`).
+da test in `src/utils/formulas.test.js` (17 test, `npm test`).
 
 **Enrollment**
-- Addressable: 250.267 (con consenso + profilazione)
-- Iscritti EOP: **30%** → 75.080
+- Addressable: 250.267 → **cresciuto del 5% in 3 anni = 262.780** (leva `crescitaCB`)
+- Iscritti EOP: **30%** → 78.834
 - Ramp adesione cumulata: Y1 80% / Y2 95% / Y3 100%
-- Iscritti/anno: 60.064 / 11.262 / 3.754 · cumulati: 60.064 / 71.326 / 75.080
+- Iscritti/anno: 63.067 / 11.825 / 3.942 · cumulati: 63.067 / 74.892 / 78.834
+- **Nuovi clienti (sotto-modello CAC)**: la sola crescita 5% (12.513) × 30% = 3.754,
+  ramp 80/95/100 → 3.003 / 563 / 188. Guida il beneficio "CAC evitato".
 
-**Siti trattenuti (delta churn)**
-- Delta churn: **8% / 9% / 10%** (Y1/Y2/Y3) — nel codice leva `deltaChurnY1` con +1pp/anno
-- Churn iniziale a catena: Y1 15% → finale = iniziale×(1−delta); Y(n) iniziale = finale Y(n−1)
-- Saved per coorte = iscrittiAnno × (churnIniziale − churnFinale), per 3 anni dall'iscrizione
-- Saved per anno solare: 721 / 861 / 908 / 187 / 47 (Y1..Y5)
+**Siti trattenuti (delta churn) — modello a coorti**
+- Delta churn: **8% / 9% / 10%** (Y1/Y2/Y3) — leva `deltaChurnY1` con +1pp/anno
+- Churn iniziale a catena: Y1 15% → 13,8% → 12,56%; finale = iniziale×(1−delta)
+- Base coorte = iscritti_cum − salvati già realizzati (Enrollment C45=D30−D42, C46=E30−E42)
+- Saved per anno solare: **757 / 1.678 / 2.647 / 1.890 / 969** (Y1..Y5)
 
-**Cross-selling**: uplift **5%** costante sui nuovi iscritti dell'anno.
+**Cross-selling**: uplift **2,5%** (Y1 sui nuovi iscritti, Y2/Y3 sui cumulati).
+Cum: 1.577 / 3.449 / 5.420.
 
-**Sintesi economica** (assumption: valore/saved €30, ARPU/margine annuo €110, CAC €110, margine contributivo 25%)
-- Ben. Retention[anno] = (30 + 110) × saved[anno]
-- Ben. CrossSell[anno] = (110 × 0,25) × clienti_crosssell_cum[anno]  (solo Y1-Y3)
-- Ben. CAC[anno] = 110 × saved[anno]
+**Sintesi economica** (ARPU/fornitura €110 × 1,3 forniture = **ARPU cliente €143**; CAC €50; beneficio cross-sell €50/cliente)
+- Ben. Retention[anno] = 143 × saved[anno]  (5 anni)
+- Ben. CrossSell[anno] = 50 × clienti_crosssell_cum[anno]  (solo Y1-Y3)
+- Ben. CAC[anno] = 50 × nuovi_clienti_anno[anno]  (solo Y1-Y3)
 - **Benefici su 5 anni** (code coorti), **costi su 3 anni**
 
 **Costi** (foglio Sintesi Ricavi): Setup €70K (Y1) · Canone €102K/anno · Contest €45K(Y1)→€41K
-· Reward = redemption 15% × iscrittiCum × €10/membro · Ops €45K(Y1)→€30K · Attivazione €0.
+· Reward = **iscrittiCum × €2/iscritto** · Ops €45K(Y1)→€30K.
 
 **Risultati ufficiali (scenario Base):**
 | | Y1 | Y2 | Y3 | Y4 | Y5 | Totale |
 |---|---|---|---|---|---|---|
-| Ricavi | 263K | 313K | 330K | 47K | 12K | **965K** |
-| Costi | 352K | 280K | 286K | — | — | **918K** |
-| Saldo netto | −89K | +33K | +45K | +47K | +12K | **+47K** |
+| Ricavi | 337K | 440K | 659K | 270K | 139K | **1.845K** |
+| Costi | 388K | 323K | 331K | — | — | **1.042K** |
+| Saldo netto | −51K | +118K | +328K | +270K | +139K | **+804K** |
 
-Break-even cumulato: Anno 4 · saldo annuo positivo da Anno 2 · ROI ~5% sui costi.
+Break-even cumulato: **Anno 2** · saldo annuo positivo da Anno 2 · ROI **~77%** sui costi.
 
 Decisione presa con Marco: **simulatore resta interattivo**, BC ufficiale come scenario **Base**.
 
@@ -69,6 +75,22 @@ Tier J-Next (dal Word): **base** (1 commodity attiva) · **silver** (1 commodity
 > Nota: il BC modella canone a **€102K** (Budget In quota €110K) e contest a €45K/€41K
 > (Budget In quota 1°=€30K + €40K/agg.). Discrepanze volute/di sintesi — i numeri
 > dell'artifact seguono il **Business Case** per coerenza con i test.
+
+### Recap costi (vista d'offerta — `RecapCosti.jsx`)
+Fonte: `Alperia_2026_Proposta Loyalty_Recap costi.xlsx` (foglio *Sintesi costi*, Anno 1, IVA escl.).
+| Voce | Importo |
+|---|---|
+| Setup Digital Wallet (one-shot) | €70.000 |
+| Maintenance piattaforma (12 mesi) | €102.000 |
+| Creatività Digital Wallet (opzionale) | €20.000 |
+| Set-up & supporto on-going Instant Win | €45.000 |
+| Scouting premi & declinazioni creative IW | €25.000 |
+| Reward catalogo on top (€10/membro × 15% redemption) | €90.000 |
+| **Totale Anno 1** | **€352.000** |
+
+> Differenza voluta col P&L del BC: il BC modella reward a €2/iscritto cumulato e non isola
+> creatività/scouting/reward catalogo come voci d'offerta. La sezione `RecapCosti` è la **vista
+> d'offerta** da condividere col cliente; il P&L resta la base economica del simulatore.
 
 ---
 
@@ -106,18 +128,18 @@ Canvas scuro (slate/near-black) tenuto come layer neutro/grayscale.
 ---
 
 ## 5. File toccati / creati
-- `src/utils/formulas.js` (riscritto), `src/utils/formulas.test.js` (nuovo)
-- `src/data/assumptions.js` (nuovi default = BC, slider, scenari)
-- `src/components/`: `BusinessCaseTable.jsx` (data-driven), `BusinessCaseSim.jsx`,
-  `Cover.jsx`, `CostValue.jsx`, `Brand.jsx`, `Hero.jsx`, `StickyNav.jsx`, `Footer.jsx`,
-  `ExperienceIntro.jsx`, `PhoneScreens.jsx`, `ReferenceCases.jsx`,
-  `ProgramIntro.jsx` (nuovo), `ConsentValue.jsx` (nuovo)
-- `tailwind.config.js`, `src/index.css`, `index.html`, `package.json` (script test + vitest)
+- **v1.0 (BC definitivo):** `src/utils/formulas.js` + `formulas.test.js` (17 test) riallineati;
+  `src/data/assumptions.js` (default = BC finale, nuove leve, scenari); `RecapCosti.jsx` (nuovo);
+  copy/numeri aggiornati in `BusinessCaseTable.jsx`, `BusinessCaseSim.jsx`, `CostValue.jsx`,
+  `Hero.jsx`, `Cover.jsx`; `App.jsx` (wiring RecapCosti).
+- **v0.9:** `src/components/`: `Brand.jsx`, `StickyNav.jsx`, `Footer.jsx`, `ExperienceIntro.jsx`,
+  `PhoneScreens.jsx`, `ReferenceCases.jsx`, `ProgramIntro.jsx`, `ConsentValue.jsx`;
+  `tailwind.config.js`, `src/index.css`, `index.html`, `package.json` (script test + vitest)
 
 ## 6. Verifica
-- `npm test` → 14/14 · `npm run build` → OK (~177KB gzip)
-- Preview Vercel: deploy automatico sulla PR (Ready)
+- `npm test` → 17/17 · `npm run build` → OK (~178KB gzip)
+- Preview Vercel: deploy automatico sulla PR
 
 ## 7. Prossimi passi
-- Tutte le richieste del rework sono completate. Resta solo la decisione di Marco se
-  passare la PR #1 da **draft a ready-for-review**.
+- Sezione economica riallineata al BC definitivo. Pronto per la restituzione al cliente.
+- Resta la decisione di Marco se passare la PR da **draft a ready-for-review**.

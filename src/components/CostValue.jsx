@@ -42,12 +42,12 @@ export default function CostValue() {
             bench: 'Budget In: 1° contest €30K + €40K per contest aggiuntivo (quotati a parte)',
           },
           {
-            cost: 'Catalogo reward',
-            amount: '~€113K',
-            period: 'a regime · Anno 3',
-            buy: '€10/membro/anno × iscritti cumulati × 15% redemption rate',
+            cost: 'Budget reward',
+            amount: '€126K→€158K',
+            period: 'Anni 1-3',
+            buy: '€2/iscritto/anno × iscritti cumulati (modello Business Case)',
             value: 'Leva di redemption e percezione di valore',
-            bench: 'Cresce con gli iscritti cumulati: 60K → 71K → 75K',
+            bench: 'Cresce con gli iscritti cumulati: 63K → 75K → 79K',
           },
           {
             cost: 'Team Alperia + agency',
@@ -59,11 +59,11 @@ export default function CostValue() {
           },
           {
             cost: 'Saldo netto · orizzonte BC',
-            amount: '+€47K',
-            period: 'ricavi − costi',
-            buy: 'Ricavi €965K − costi €918K (Business Case ufficiale Alperia)',
+            amount: '+€804K',
+            period: 'ricavi − costi · 5 anni',
+            buy: 'Ricavi €1.845K − costi €1.042K (Business Case ufficiale Alperia)',
             value: 'Saldo annuo negativo in Anno 1, positivo da Anno 2',
-            bench: 'Break-even cumulato Anno 4 · ROI ~5% sui costi',
+            bench: 'Break-even cumulato Anno 2 · ROI ~77% sui costi',
             highlight: true,
           },
         ].map((item, i) => (
@@ -118,7 +118,7 @@ export default function CostValue() {
               CAC risparmiato sulla riacquisizione e — nel tempo — il valore della base consensata che alimenta marketing e comunicazione.
             </p>
             <p className="font-body text-sm text-slate-300 leading-relaxed">
-              Il KPI da presidiare per validare la tenuta del modello è <span className="text-teal-300 font-semibold">il tasso di iscrizione EOP: il Business Case assume il 30% dell'addressable (75K clienti)</span>.
+              Il KPI da presidiare per validare la tenuta del modello è <span className="text-teal-300 font-semibold">il tasso di iscrizione EOP: il Business Case assume il 30% dell'addressable (79K clienti)</span>.
               Sotto soglia l'intero business case va rivisto. Per questo proponiamo un Pilot di 3 mesi in fase 2 prima del rollout completo.
             </p>
           </div>
