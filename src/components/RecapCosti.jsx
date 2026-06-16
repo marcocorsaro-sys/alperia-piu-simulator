@@ -52,8 +52,8 @@ const VOCI = [
     items: [
       {
         label: 'Reward catalogo (on top)',
-        amount: 90000,
-        desc: '€10/membro × 15% redemption rate. Voce a consumo, quotata a parte e allineata all\'effettivo riscatto premi.',
+        amount: 126000,
+        desc: 'Budget premi complessivo, allineato al Business Case. Dato aggregato Digital Wallet + Contest Instant Win, non ripartito per singola iniziativa. Voce a consumo, quotata a parte e allineata all\'effettivo riscatto premi.',
       },
     ],
   },

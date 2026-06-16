@@ -22,7 +22,7 @@ export default function ReferenceCases() {
             client: 'E.ON',
             program: 'Energia Vincente',
             tag: 'Live · giu 2025 — dic 2026',
-            cb: '550K clienti',
+            cb: '',
             challenge: 'Incrementare fedeltà della customer base e incentivare nuove attivazioni commodity.',
             solution: 'Programma loyalty su piattaforma JNext con FE custom. Giftcard come reward principale (>95%). Hub evolutivo: da loyalty a contenitore di contest instant win e cashback.',
             accent: 'teal',
@@ -51,7 +51,7 @@ export default function ReferenceCases() {
             tag: 'Live · mag 2025',
             cb: 'Clienti NeN',
             challenge: 'Coinvolgere clienti con meccaniche interattive (MGM, quiz), incrementare sottoscrizioni luce/gas, premiare ageing.',
-            solution: 'Back-end JNext + Front-end custom. Integrazione Zendesk-Salesforce per CC di 2° livello. Dashboard PBI per KPI. Sconti progressivi su anzianità.',
+            solution: 'Programma loyalty a 3 tier basato sull\'aging, con vantaggi differenziati e meccaniche di engagement a supporto di attività di data enrichment (survey) e cross/up-selling.',
             accent: 'amber',
           },
           {
@@ -87,7 +87,7 @@ export default function ReferenceCases() {
               </div>
               <div className="text-right flex-shrink-0 ml-4">
                 <div className="font-body text-[10px] uppercase tracking-wider text-slate-500 mb-0.5">{c.tag}</div>
-                <div className="font-body text-xs text-slate-300 font-medium">{c.cb}</div>
+                {c.cb && <div className="font-body text-xs text-slate-300 font-medium">{c.cb}</div>}
               </div>
             </div>
 
