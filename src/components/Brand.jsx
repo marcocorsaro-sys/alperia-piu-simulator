@@ -75,8 +75,8 @@ export default function Brand() {
             { name: 'Blu', hex: '#006593', role: 'Primario · brand, uso estensivo', aa: 'AA 6,39', style: { background: '#006593' }, fg: 'text-white' },
             { name: 'Turchese', hex: '#1D7990', role: 'Secondario · a supporto del primario', aa: 'AA 5,01', style: { background: '#1D7990' }, fg: 'text-white' },
             { name: 'Arancione', hex: '#DB3700', role: 'Accento · esclusivo per le CTA', aa: 'AA 4,60', style: { background: '#DB3700' }, fg: 'text-white' },
-            { name: 'Errore', hex: '#C0392B', role: 'Status · azione negativa', aa: '', style: { background: '#C0392B' }, fg: 'text-white' },
-            { name: 'Successo', hex: '#4E7D2E', role: 'Status · azione positiva', aa: '', style: { background: '#4E7D2E' }, fg: 'text-white' },
+            { name: 'Rosso', hex: '#C0392B', role: 'Status · azione negativa / errore', aa: '', style: { background: '#C0392B' }, fg: 'text-white' },
+            { name: 'Verde', hex: '#4E7D2E', role: 'Status · azione positiva / successo', aa: '', style: { background: '#4E7D2E' }, fg: 'text-white' },
           ].map((c, i) => (
             <div key={i} className="rounded-xl overflow-hidden border border-slate-800">
               <div className="h-24 flex items-end justify-between p-4" style={c.style}>

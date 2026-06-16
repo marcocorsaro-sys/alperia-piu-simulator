@@ -53,9 +53,9 @@ export default function CostValue() {
             cost: 'Team Alperia + agency',
             amount: '€45K',
             period: 'Anno 1 · poi €30K/anno',
-            buy: 'Presidio operativo interno + agency a supporto del programma',
-            value: 'Capability interna trasversale, riusabile post-programma',
-            bench: 'Creatività SBAM (naming, logo, key visual): €20K opzionale, quotata a parte',
+            buy: 'Creatività Digital Wallet (naming, logo, key visual, icone tier) e Contest Instant Win: declinazioni creative, componenti UX-UI e rewarding dei contest',
+            value: 'Identità del programma e meccaniche di gioco a supporto di adozione e redemption',
+            bench: 'Rif. Excel «Sintesi costi»: Creatività DW €20K + Scouting premi & declinazioni creative IW €25K (riga 35)',
           },
           {
             cost: 'Saldo netto · orizzonte BC',
