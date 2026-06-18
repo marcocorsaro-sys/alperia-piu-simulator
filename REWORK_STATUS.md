@@ -45,16 +45,16 @@ Cum: 1.577 / 3.449 / 5.420.
 - **Benefici su 5 anni** (code coorti), **costi su 3 anni**
 
 **Costi** (foglio Sintesi Ricavi): Setup €70K (Y1) · Canone €102K/anno · Contest €45K(Y1)→€41K
-· Reward = **iscrittiCum × €2/iscritto** · Ops €45K(Y1)→€30K.
+· Reward = **iscrittiCum × €2/iscritto** · Costi interni €65K(Y1)→€30K.
 
 **Risultati ufficiali (scenario Base):**
 | | Y1 | Y2 | Y3 | Y4 | Y5 | Totale |
 |---|---|---|---|---|---|---|
 | Ricavi | 337K | 440K | 659K | 270K | 139K | **1.845K** |
-| Costi | 388K | 323K | 331K | — | — | **1.042K** |
-| Saldo netto | −51K | +118K | +328K | +270K | +139K | **+804K** |
+| Costi | 408K | 323K | 331K | — | — | **1.062K** |
+| Saldo netto | −71K | +118K | +328K | +270K | +139K | **+784K** |
 
-Break-even cumulato: **Anno 2** · saldo annuo positivo da Anno 2 · ROI **~77%** sui costi.
+Break-even cumulato: **Anno 2** · saldo annuo positivo da Anno 2 · ROI **~74%** sui costi.
 
 Decisione presa con Marco: **simulatore resta interattivo**, BC ufficiale come scenario **Base**.
 
