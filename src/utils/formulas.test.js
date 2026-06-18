@@ -87,17 +87,17 @@ describe('Sintesi economica (Sintesi Ricavi BC)', () => {
     near(years[4].benefits.total, 138557.24, 5);
   });
 
-  it('costi totali per anno Y1..Y3 ≈ 408K / 323K / 331K', () => {
+  it('costi totali per anno Y1..Y3 ≈ 408K / 358K / 366K', () => {
     near(years[0].costs.total, 408134.57, 5);
-    near(years[1].costs.total, 322784.80, 5);
-    near(years[2].costs.total, 330668.21, 5);
+    near(years[1].costs.total, 357784.80, 5);
+    near(years[2].costs.total, 365668.21, 5);
   });
 
   it('saldo netto per anno: negativo Y1, positivo da Y2', () => {
     expect(years[0].net).toBeLessThan(0);
     near(years[0].net, -70916.80, 5);
-    near(years[1].net, 117712.56, 5);
-    near(years[2].net, 328158.99, 5);
+    near(years[1].net, 82712.56, 5);
+    near(years[2].net, 293158.99, 5);
   });
 });
 
@@ -105,8 +105,8 @@ describe('Totali Business Case ufficiale', () => {
   const r = runBusinessCase(k);
 
   it('ricavi totali ≈ 1.845K€', () => near(r.totalBenefits, 1845326.07, 10));
-  it('costi totali ≈ 1.062K€', () => near(r.totalCosts, 1061587.58, 10));
-  it('saldo netto ≈ 784K€', () => near(r.totalNet, 783738.50, 10));
+  it('costi totali ≈ 1.132K€', () => near(r.totalCosts, 1131587.58, 10));
+  it('saldo netto ≈ 714K€', () => near(r.totalNet, 713738.50, 10));
   it('primo anno con saldo annuo positivo = Y2', () => expect(r.primoAnnoPositivo).toBe(2));
   it('break-even cumulato = Anno 2', () => expect(r.breakEven).toBe(2));
   it('iscritti EOP ≈ 78.834', () => near(r.iscrittiEOP, 78834, 1));

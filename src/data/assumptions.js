@@ -9,7 +9,7 @@
 //   • Delta churn 8% / 9% / 10% (Y1/Y2/Y3), churn iniziale 15%
 //   • Uplift cross-sell 2,5% · ARPU per cliente €143 (110 × 1,3 forniture)
 //   • CAC evitato €50 sui nuovi clienti · beneficio cross-sell €50/cliente
-//   • Ricavi 5Y ~1.845K€ · Costi 3Y ~1.062K€ · Saldo netto ~784K€
+//   • Ricavi 5Y ~1.845K€ · Costi 3Y ~1.132K€ · Saldo netto ~714K€
 //     (negativo Y1, positivo da Y2 · break-even cumulato Anno 2)
 //
 // ⚠️  Modifica SOLO questi valori di default. Il resto del modello (formule,
@@ -48,7 +48,7 @@ export const DEFAULT_KPIS = {
   costoContestRicorrente: 41000,   // € contest instant win dal Y2
   costoRewardPerMembro: 2,         // € costo reward per iscritto cumulato/anno (BC)
   costoOperativoY1: 65000,         // € costi interni (team Alperia + agency) anno 1
-  costoOperativoRicorrente: 30000, // € team interno + agency dal Y2
+  costoOperativoRicorrente: 65000, // € team interno + agency dal Y2
 };
 
 /**
