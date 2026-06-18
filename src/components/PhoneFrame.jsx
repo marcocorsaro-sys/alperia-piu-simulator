@@ -17,6 +17,10 @@ export default function PhoneFrame({ screenId }) {
   return (
     <div className="relative">
       <div className="absolute -inset-8 bg-gradient-to-br from-teal-500/10 via-amber-500/5 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+      {/* Disclaimer badge — explicit reminder that screens are indicative, not final */}
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-30 whitespace-nowrap font-body text-[9px] uppercase tracking-[0.15em] font-semibold text-amber-200 bg-amber-950/80 border border-amber-500/40 rounded-full px-3 py-1 backdrop-blur-sm">
+        Mockup indicativo · non definitivo
+      </div>
       <div className="relative">
         <div className="w-[320px] h-[680px] bg-slate-900 rounded-[3rem] p-3 shadow-2xl border-4 border-slate-800">
           <div className="w-full h-full bg-white rounded-[2.4rem] overflow-hidden relative">
