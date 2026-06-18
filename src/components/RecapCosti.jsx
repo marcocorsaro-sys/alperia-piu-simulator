@@ -26,7 +26,7 @@ const VOCI = [
       },
       {
         label: 'Creatività Digital Wallet',
-        amount: 20000,
+        amount: 28899,
         desc: 'Direzione creativa, naming programma e tier, logo, key visual e declinazioni, icone tier. Opzionale (SBAM).',
         opzionale: true,
       },
@@ -42,7 +42,7 @@ const VOCI = [
       },
       {
         label: 'Scouting premi & declinazioni creative',
-        amount: 25000,
+        amount: 36111,
         desc: 'Scouting e messa in palio fino a 5 referenze per contest (premi digitali o fisici), declinazioni creative, UX-UI, DEM e copy fine-tuning. Costo premi escluso.',
       },
     ],
