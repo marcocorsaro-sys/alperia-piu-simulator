@@ -52,18 +52,18 @@ export default function CostValue() {
           {
             cost: 'Team Alperia + agency',
             amount: '€65K',
-            period: 'Anno 1 · poi €30K/anno',
+            period: 'Costi Anno 1',
             buy: 'Costi interni di programma: presidio del team Alperia (governance, project management) e attività agency su Creatività Digital Wallet (naming, logo, key visual, icone tier) e Contest Instant Win (declinazioni creative, componenti UX-UI, rewarding dei contest)',
             value: 'Identità del programma, governance interna e meccaniche di gioco a supporto di adozione e redemption',
             bench: 'Costi interni Anno 1 €65K: presidio team interno Alperia + Creatività DW €20K + Scouting premi & declinazioni creative IW €25K',
           },
           {
             cost: 'Saldo netto · orizzonte BC',
-            amount: '+€784K',
+            amount: '+€714K',
             period: 'ricavi − costi · 5 anni',
-            buy: 'Ricavi €1.845K − costi €1.062K (Business Case ufficiale Alperia)',
+            buy: 'Ricavi €1.845K − costi €1.132K (Business Case ufficiale Alperia)',
             value: 'Saldo annuo negativo in Anno 1, positivo da Anno 2',
-            bench: 'Break-even cumulato Anno 2 · ROI ~74% sui costi',
+            bench: 'Break-even cumulato Anno 2 · ROI ~63% sui costi',
             highlight: true,
           },
         ].map((item, i) => (
