@@ -16,6 +16,15 @@ export default function ExperienceIntro() {
         di business specifico: adesione, engagement, cross-sell, retention, profilazione.
       </p>
 
+      <div className="mb-12 rounded-xl border border-slate-800 bg-slate-900/40 px-5 py-4 flex items-start gap-3 max-w-3xl">
+        <span className="font-display text-teal-300 text-lg leading-none mt-0.5">ⓘ</span>
+        <p className="font-body text-xs text-slate-400 leading-relaxed">
+          Le schermate che seguono hanno finalità esclusivamente illustrative: servono a comunicare logiche,
+          flussi e leve di business del programma. Non rappresentano una definizione finale della soluzione,
+          il cui design (UI, key visual, sistema iconografico) è oggetto del percorso creativo dedicato.
+        </p>
+      </div>
+
       <div className="grid md:grid-cols-5 gap-3">
         {[
           { n: '01', screen: 'Home', kpi: 'Adesione & MAU', color: 'teal' },

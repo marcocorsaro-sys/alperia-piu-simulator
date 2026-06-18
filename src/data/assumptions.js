@@ -114,10 +114,11 @@ export const KPI_CONFIG = {
   },
   arpuAnnuoPerFornitura: {
     label: 'ARPU annuo €/fornitura',
-    hint: 'Margine ricorrente per fornitura attiva (BC: 110€)',
+    hint: 'Margine ricorrente per fornitura attiva (valore fisso da Business Case: 110€)',
     min: 60, max: 250, step: 10,
     format: (v) => `€${v.toLocaleString('it-IT')}`,
     category: 'economics',
+    locked: true,
   },
   puntiFornituraMedi: {
     label: 'Forniture medie / cliente',

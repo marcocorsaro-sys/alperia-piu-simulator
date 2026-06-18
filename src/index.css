@@ -82,4 +82,21 @@
     cursor: pointer;
     border: 3px solid #020617;
   }
+  input[type="range"].kpi-slider:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  input[type="range"].kpi-slider:disabled::-webkit-slider-thumb {
+    background: #64748b;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  input[type="range"].kpi-slider:disabled::-webkit-slider-thumb:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  input[type="range"].kpi-slider:disabled::-moz-range-thumb {
+    background: #64748b;
+    cursor: not-allowed;
+  }
 }
