@@ -12,6 +12,7 @@ const navItems = [
   { id: 'consensi', label: 'Consensi' },
   { id: 'cases', label: 'Cases' },
   { id: 'timeline', label: 'Timeline' },
+  { id: 'architettura', label: 'Architettura IT' },
 ];
 
 /**
