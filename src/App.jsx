@@ -18,6 +18,7 @@ import RecapCosti from './components/RecapCosti.jsx';
 import ConsentValue from './components/ConsentValue.jsx';
 import ReferenceCases from './components/ReferenceCases.jsx';
 import Timeline from './components/Timeline.jsx';
+import ArchitetturaTecnica from './components/ArchitetturaTecnica.jsx';
 import Footer from './components/Footer.jsx';
 
 export default function App() {
@@ -51,6 +52,7 @@ export default function App() {
       <ConsentValue />
       <ReferenceCases />
       <Timeline />
+      <ArchitetturaTecnica />
       <Footer />
     </div>
   );
